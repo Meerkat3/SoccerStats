@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Visualization - Homework 6</title>
+    <link rel="stylesheet" href="public/css/style.css"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- <script type="text/javascript" src="bower_components/d3/d3.js"></script> -->
+    <script type="text/javascript" src="bower_components/d3-tip/index.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="tab">
+  <button class="tablinks" id=defaultOpen onclick="openCity(event, 'Player')">London</button>
+  <button class="tablinks" onclick="openCity(event, 'Clubs')">Paris</button>
+</div>
+
+<div id="Player" class="tabcontent">
+  <h3>Player</h3>
+  <div id="player_attributes" class="view">
+        <div id="plot-selector">
+            <label>Select Player:</label>
+            <select id="dataset" onchange="chooseData()">
+                <option selected value="attendance">Attendance</option>
+                <option value="teams">Teams</option>
+                <option value="matches">Matches</option>
+                <option value="goals">Goals</option>
+            </select>
+        </div>
+
+        <svg width="500" height="400" id="barChart">
+            <g id="xAxis"></g>
+            <g id="yAxis"></g>
+            <g id="bars"></g>
+        </svg>
+    </div>
+</div>
+
+<div id="Clubs" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p> 
+</div>
+
+<script type="application/javascript" src="public/js/player.js"></script>
+<script type="application/javascript" src="public/js/script.js"></script>
+</body>
+</html>
