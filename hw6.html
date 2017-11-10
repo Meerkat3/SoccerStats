@@ -16,28 +16,31 @@
 <body>
 
 <div class="tab">
-  <button class="tablinks" id=defaultOpen onclick="openCity(event, 'Player')">London</button>
-  <button class="tablinks" onclick="openCity(event, 'Clubs')">Paris</button>
+  <button class="tablinks" id=defaultOpen onclick="openCity(event, 'Player')">Player</button>
+  <button class="tablinks" onclick="openCity(event, 'Clubs')">Clubs</button>
 </div>
 
 <div id="Player" class="tabcontent">
   <h3>Player</h3>
   <div id="player_attributes" class="view">
-        <div id="plot-selector">
-            <label>Select Player:</label>
-            <select id="dataset" onchange="chooseData()">
-                <option selected value="attendance">Attendance</option>
-                <option value="teams">Teams</option>
-                <option value="matches">Matches</option>
-                <option value="goals">Goals</option>
-            </select>
+        <div id="player-select">
+          <button id="player-select-btn"> Select Player </button>
         </div>
+        <span id="player-names">
+        </span>
 
-        <svg width="500" height="400" id="barChart">
-            <g id="xAxis"></g>
-            <g id="yAxis"></g>
-            <g id="bars"></g>
-        </svg>
+        <div id="player-details">
+          <svg width="300" height="300" id="image">
+            
+          </svg>
+          <svg width="300" height="300" id="details">
+            
+          </svg>
+          <!-- <svg width="500" height="300" id="radar-chart">
+            
+          </svg> -->
+        </div>
+        
     </div>
 </div>
 
@@ -46,7 +49,7 @@
   <p>Paris is the capital of France.</p> 
 </div>
 
-<script type="application/javascript" src="public/js/player.js"></script>
+<script type="application/javascript" src="public/js/playerAttributes.js"></script>
 <script type="application/javascript" src="public/js/script.js"></script>
 </body>
 </html>
