@@ -40,6 +40,8 @@ class YearChart {
         this.svg = d3.select("#lineChart")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight);
+
+
     };
 
 
@@ -137,7 +139,7 @@ class YearChart {
 
             console.log(yAxisG);
 
-            yAxisG.call(yAxis);
+            yAxisG.transition(3000).call(yAxis);
 
 
         let xScale = d3.scaleLinear()
@@ -156,7 +158,7 @@ class YearChart {
 
         console.log(xAxisG);
 
-        xAxisG.call(xAxis);
+        xAxisG.transition(3000).call(xAxis);
 
         playerYearDataList.forEach(function(player){
             console.log(player.name);
@@ -182,6 +184,200 @@ class YearChart {
 
         });
 
+
+        var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
+
+        self.svg.append("g").attr("class", "brush").call(brush);
+
+
+        function brushed() {
+            console.log(d3.event.selection);
+
+            var sel = d3.event.selection;
+
+            var yearValuesBrushed = yearValues.filter((d) => xScale(d)+self.margin.left+ 10 >= sel["0"] &&  xScale(d)+self.margin.left+ 10  <= sel["1"]);
+
+            var uniqueYrs = yearValuesBrushed.filter(function(elem, index, self) {
+                return index == self.indexOf(elem);
+            });
+
+            console.log(uniqueYrs);
+
+
+            // var dataSel = self.posd.filter((d) => d.position >= sel["0"] && d.position <= sel["1"]);
+            // window.selectedStatesIn = dataSel.map( d => d.elem);
+            // self.shiftChart.update(window.selectedStatesIn, window.selectedYearsIn);
+            self.updateBars(playerYearDataList, uniqueYrs , attrib);
+
+
+        }
+
+
+    };
+
+    updateBars(playerYearDataList, yearSelection , attrib ){
+
+        console.log(playerYearDataList);
+        console.log(yearSelection);
+        console.log(attrib);
+
+        var self = this;
+        self.svgBars = d3.select("#barChart")
+            .attr("width", self.svgWidth)
+            .attr("height", self.svgHeight);
+
+        let divyearBars = d3.select("#performance_per_years").classed("fullView", true);
+
+        divyearBars.selectAll("*").remove();
+
+        var svgBounds = divyearBars.node().getBoundingClientRect();
+        var svgWidth = svgBounds.width - self.margin.left - self.margin.right;
+
+        var svgHeight = 400;
+
+        // //add the svg to the div
+
+        yearSelection.forEach(function(year){
+
+            var playerAttrib = [];
+
+            var attribs = [];
+
+            playerYearDataList.forEach(function(player){
+
+                var yearData =  player.playerYearData.filter(function(d){
+                    return +d.year == year
+                })[0];
+
+                playerAttrib.push(
+                    {
+                        name: player.name,
+                        data : yearData
+                    }
+                );
+
+                attribs.push(+yearData[attrib]);
+
+            });
+
+            console.log(playerAttrib);
+
+            console.log(attribs);
+
+            //
+            // var attribValues = [];
+            //
+            // nameList.forEach(function(name){
+            //
+            //     var plyrData =  self.yearData.filter(function(d){
+            //         return d.player_name == name;
+            //     });
+            //     playerYearDataList.push(
+            //         {
+            //             "name" : name,
+            //             "playerYearData" : plyrData.sort(function(x, y){
+            //                 return d3.ascending(+x.year, +y.year);
+            //             })
+            //         })
+            //
+            //     attribValues = attribValues.concat(plyrData.map(function(d){
+            //         return +d[attrib];
+            //     }));
+            //
+            //     yearValues = yearValues.concat(plyrData.map(function(d){
+            //         return +d.year;
+            //     }));
+            //
+            // });
+            //
+
+            var svgbar = divyearBars.append("svg")
+                .attr("width", svgWidth/2)
+                .attr("height", svgHeight);
+
+
+            var yScale = d3.scaleLinear()
+                .domain([Math.max(d3.min(attribs) - 10 , 0 ), d3.max(attribs)])
+        .range([svgHeight - self.margin.top - self.margin.bottom, 0]);
+
+
+            console.log(svgHeight - self.margin.top - self.margin.bottom);
+            console.log(yScale(9));
+
+            let yAxis = d3.axisLeft();
+            // assign the scale to the axis
+            yAxis.scale(yScale);
+
+
+            var yAxisG = svgbar.append("g")  //d3.select("#yAxis")
+                .attr("transform", "translate("+self.margin.left+"," + self.margin.top +")");
+            // self.svg.append("g")
+            // .attr("class" , "yAxis");
+
+            console.log(yAxisG);
+
+            yAxisG.transition(3000).call(yAxis);
+
+
+            let xScale = d3.scaleLinear()
+                .domain([0, attribs.length])
+                .range([0, svgWidth/2 - self.margin.left - self.margin.right]);
+
+            let xAxis = d3.axisBottom();
+            // assign the scale to the axis
+            xAxis.scale(xScale);
+
+
+            var xAxisG = svgbar.append("g") //d3.select("#xAxis")
+                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.svgHeight - self.margin.bottom) +")");
+            // self.svg.append("g")
+            // .attr("class" , "yAxis");
+
+            console.log(xAxisG);
+
+            xAxisG.transition(3000).call(xAxis);
+
+            var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
+
+
+            var bars = svgbar.selectAll("#bars")
+                    .data(attribs);
+
+            var newBars = bars
+                .enter()
+                .append("rect")
+                .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
+                .attr("y" , d => yScale(d))
+                // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
+                .attr("width", rectWidth)
+                .attr("height", d => {
+                    return svgHeight - yScale(d) - self.margin.bottom;
+                })
+            .classed("yearBar", true);
+
+            bars.exit()
+                .attr("opacity", 1)
+                .transition()
+                .duration(3000)
+                .attr("opacity", 0)
+                .remove();
+
+
+            bars = newBars.merge(bars);
+
+            bars
+                .transition()
+                .duration(3000)
+                .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
+        .attr("y" , d => yScale(d))
+            // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
+        .attr("width", rectWidth)
+                .attr("height", d => {
+                return svgHeight - yScale(d) - self.margin.bottom;
+        })
+
+
+        });
 
     };
 

@@ -37,3 +37,22 @@ div.tab button.active {
     border: 1px solid #ccc;
     border-top: none;
 }
+
+.brushtext{
+    text-anchor:middle;
+    font-size: 12px;
+    fill: #565656;
+    stroke-width: 0.1px;
+    /*stroke: #e5e5e5;*/
+}
+
+
+.brush .selection {
+    fill-opacity: .5;
+}
+
+.yearBar{
+    fill: blue;
+    stroke : white;
+    stroke-width: 2;
+}
