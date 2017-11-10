@@ -18,3 +18,18 @@ document.getElementById("defaultOpen").click();
 d3.csv("data/Latest_attributes.csv", function (error, playerDaya) {
     let playerAttributes = new PlayerAttributes(playerDaya);
 });
+
+
+
+d3.csv("data/player_data.csv", function (error, yearData) {
+    console.log(yearData);
+    let yearAttribs = new YearChart(yearData);
+
+
+    yearAttribs.update(["Alexis Sanchez","Andres Iniesta"], "overall_rating");
+
+
+
+
+});
+

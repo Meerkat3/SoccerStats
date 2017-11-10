@@ -34,6 +34,23 @@
         </div>
 
         <svg width="500" height="400" id="barChart">
+            <g id="xAxis1"></g>
+            <g id="yAxis1"></g>
+            <g id="bars1"></g>
+        </svg>
+    </div>
+    <div id="performance_years" class="view">
+        <div id="plot-selector">
+            <label>Select Player:</label>
+            <select id="dataset" onchange="chooseData()">
+                <option selected value="attendance">Attendance</option>
+                <option value="teams">Teams</option>
+                <option value="matches">Matches</option>
+                <option value="goals">Goals</option>
+            </select>
+        </div>
+
+        <svg  id="lineChart">
             <g id="xAxis"></g>
             <g id="yAxis"></g>
             <g id="bars"></g>
@@ -46,7 +63,8 @@
   <p>Paris is the capital of France.</p> 
 </div>
 
-<script type="application/javascript" src="public/js/player.js"></script>
+<script type="application/javascript" src="public/js/yearChart.js"></script>
+<script type="application/javascript" src="public/js/playerAttributes.js"></script>
 <script type="application/javascript" src="public/js/script.js"></script>
 </body>
 </html>
