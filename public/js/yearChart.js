@@ -68,16 +68,31 @@ class YearChart {
             var self = this;
             var playerYearDataList = [];
 
+            var attribValues = [];
+
+            var yearValues = [];
+
             nameList.forEach(function(name){
+
+                var plyrData =  self.yearData.filter(function(d){
+                    return d.player_name == name;
+                });
                 playerYearDataList.push(
                     {
                         "name" : name,
-                        "playerYearData" : self.yearData.filter(function(d){
-                            return d.player_name == name;
-                        }).sort(function(x, y){
+                        "playerYearData" : plyrData.sort(function(x, y){
                             return d3.ascending(+x.year, +y.year);
                         })
                     })
+
+                attribValues = attribValues.concat(plyrData.map(function(d){
+                    return +d[attrib];
+                }));
+
+                yearValues = yearValues.concat(plyrData.map(function(d){
+                    return +d.year;
+                }));
+
             });
             // var playerYearData = self.yearData.filter(function(d){
             //     return d.player_name == name;
@@ -89,14 +104,22 @@ class YearChart {
 
             console.log(playerYearDataList);
 
-            var attribValues = playerYearData.map(function(d){
-                return +d[attrib];
-            });
+            // var attribValues = playerYearData.map(function(d){
+            //     return +d[attrib];
+            // });
 
 
 
             console.log(attribValues);
-            console.log(d3.min(attribValues, d => +d));
+
+        console.log(yearValues);
+            console.log(d3.min(attribValues));
+        console.log(d3.max(attribValues));
+
+        console.log(d3.min(yearValues));
+        console.log(d3.max(yearValues));
+
+            // console.log(d3.min(attribValues, d => +d));
 
             let yScale = d3.scaleLinear()
                 .domain([d3.min(attribValues, d => d), d3.max(attribValues, d => d)])
@@ -118,7 +141,7 @@ class YearChart {
 
 
         let xScale = d3.scaleLinear()
-            .domain([2007, 2016])
+            .domain([d3.min(yearValues), d3.max(yearValues)])
       .range([0, self.svgWidth - self.margin.left - self.margin.right]);
 
         let xAxis = d3.axisBottom();
@@ -135,23 +158,29 @@ class YearChart {
 
         xAxisG.call(xAxis);
 
-        var lineCoords = playerYearData.map(function(d){
-            return [xScale(+d.year) , yScale(+d[attrib])];
+        playerYearDataList.forEach(function(player){
+            console.log(player.name);
+            console.log(player.playerYearData);
+
+            var lineCoords = player.playerYearData.map(function(d){
+                return [xScale(+d.year) , yScale(+d[attrib])];
+            });
+
+            console.log(lineCoords);
+
+            var lineGenerator = d3.line();
+            var pathString = lineGenerator(lineCoords);
+
+            console.log(pathString);
+
+            self.svg.append('path')
+                .attr('d', pathString)
+                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
+                .attr("style", "fill : none ;stroke: black")
+
+            ;
+
         });
-
-        console.log(lineCoords);
-
-        var lineGenerator = d3.line();
-        var pathString = lineGenerator(lineCoords);
-
-        console.log(pathString);
-
-        self.svg.append('path')
-            .attr('d', pathString)
-            .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
-            .attr("style", "fill : none ;stroke: black")
-
-        ;
 
 
     };
