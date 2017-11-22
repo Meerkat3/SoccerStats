@@ -127,28 +127,29 @@ class PlayerAttributes {
                 });
 
         let attributes = [
-        "overall_rating",
-        "crossing",
-        "finishing",
-        "heading_accuracy",
-        "short_passing",
-        "dribbling",
-        "volleys",
-        "free_kick_accuracy",
-        "long_passing",
-        "ball_control",
-        "acceleration",
-        "sprint_speed",
-        "balance",
-        "jumping",
-        "stamina",
-        "aggression",
-        "interceptions",
-        "positioning",
-        "marking",
-        "penalties",
-        "gk_reflexes"
+            "overall_rating",
+            "finishing",
+            "dribbling",
+            "acceleration",
+            "sprint_speed",
+            "volleys",
+            "ball_control",
+            "penalties",
+            "free_kick_accuracy",
+            "crossing",
+            "heading_accuracy",
+            "balance",
+            "aggression",
+            "jumping",
+            "stamina",
+            "short_passing",
+            "long_passing",
+            "interceptions",
+            "positioning",
+            "marking",
+            "gk_reflexes"
         ];
+
         let data = [];
         attributes.forEach(function(s){
             data.push({"attribute": s, value: singlePlayerData[s]});
