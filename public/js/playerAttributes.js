@@ -10,11 +10,11 @@ class PlayerAttributes {
      * @param electionInfo instance of ElectionInfo
      * @param electionWinners data corresponding to the winning parties over mutiple election years
      */
-    constructor (playerData) {
+    constructor (playerData, playerChart, selectedPlayer, selectedAttribute) {
 
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 30, left: 50};
-        let divyearChart = d3.select("#year-chart").classed("fullView", true);
+        let divyearChart = d3.select("#player_attributes").classed("fullView", true);
 
         //fetch the svg bounds
         // this.svgBounds = divyearChart.node().getBoundingClientRect();
@@ -29,7 +29,7 @@ class PlayerAttributes {
         this.firstLoad = true;
         this.playerData = playerData;
         let players = [];
-        this.selectedPlayer = "Lionel Messi";
+        this.selectedPlayer = selectedPlayer;
         this.playerData.forEach(function(player){
             players.push(player.player_name);
         });
@@ -37,6 +37,9 @@ class PlayerAttributes {
         d3.select("#player-select-btn")
             .on("click", this.showNames)
         this.update(this.selectedPlayer);
+        this.playerChart = playerChart;
+        this.playerChart.update([this.selectedPlayer], selectedAttribute);
+        this.playerChart.populateSearch(players);
     };
 
     populateNames (players){
@@ -127,28 +130,29 @@ class PlayerAttributes {
                 });
 
         let attributes = [
-        "overall_rating",
-        "crossing",
-        "finishing",
-        "heading_accuracy",
-        "short_passing",
-        "dribbling",
-        "volleys",
-        "free_kick_accuracy",
-        "long_passing",
-        "ball_control",
-        "acceleration",
-        "sprint_speed",
-        "balance",
-        "jumping",
-        "stamina",
-        "aggression",
-        "interceptions",
-        "positioning",
-        "marking",
-        "penalties",
-        "gk_reflexes"
+            "overall_rating",
+            "finishing",
+            "dribbling",
+            "acceleration",
+            "sprint_speed",
+            "volleys",
+            "ball_control",
+            "penalties",
+            "free_kick_accuracy",
+            "crossing",
+            "balance",
+            "heading_accuracy",
+            "aggression",
+            "jumping",
+            "stamina",
+            "short_passing",
+            "long_passing",
+            "interceptions",
+            "positioning",
+            "marking",
+            "gk_reflexes"
         ];
+
         let data = [];
         attributes.forEach(function(s){
             data.push({"attribute": s, value: singlePlayerData[s]});

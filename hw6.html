@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualization - Homework 6</title>
+    <!-- <script type="text/javascript" src="bower_components/d3/d3.js"></script> -->
+    <script type="text/javascript" src="public/assets/jquery-3.2.1.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <link rel="stylesheet" href="public/css/style.css"/>
     <script src="https://d3js.org/d3.v4.js"></script>
-    <!-- <script type="text/javascript" src="bower_components/d3/d3.js"></script> -->
     <script type="text/javascript" src="bower_components/d3-tip/index.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
@@ -31,16 +34,36 @@
 
         <div id="player-details">
           <svg width="300" height="300" id="image">
-            
+
           </svg>
           <svg width="300" height="300" id="details">
-            
+
           </svg>
           <!-- <svg width="500" height="300" id="radar-chart">
-            
+
           </svg> -->
         </div>
-        
+
+    </div>
+    <div id="performance_years" class="view">
+        <select id="select2-search" name="state">
+            <option></option>
+        </select>
+        <span id="selected-players">
+        </span>
+        <svg  id="lineChart">
+            <g id="xAxis"></g>
+            <g id="yAxis"></g>
+        </svg>
+    </div>
+
+    <div id="performance_per_years" class="view" style="margin-top: 10%">
+
+        <!--<svg  id="barChart">-->
+            <!--<g id="xAxisb"></g>-->
+            <!--<g id="yAxisb"></g>-->
+            <!--<g id="barsb"></g>-->
+        <!--</svg>-->
     </div>
 </div>
 
@@ -49,6 +72,7 @@
   <p>Paris is the capital of France.</p> 
 </div>
 
+<script type="application/javascript" src="public/js/yearChart.js"></script>
 <script type="application/javascript" src="public/js/playerAttributes.js"></script>
 <script type="application/javascript" src="public/js/script.js"></script>
 </body>

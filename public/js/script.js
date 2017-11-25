@@ -16,5 +16,13 @@ document.getElementById("defaultOpen").click();
 
 
 d3.csv("data/Latest_attributes.csv", function (error, playerDaya) {
-    let playerAttributes = new PlayerAttributes(playerDaya);
+    d3.csv("data/player_data.csv", function (error, yearData) {
+        let selectedPlayer = "Lionel Messi";
+        let selectedAttribute = "overall_rating";
+        let yearAttribs = new YearChart(yearData, selectedPlayer, selectedAttribute);
+        let playerAttributes = new PlayerAttributes(playerDaya, yearAttribs, selectedPlayer, selectedAttribute);
+    });
 });
+
+
+

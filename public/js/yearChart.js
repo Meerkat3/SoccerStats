@@ -10,29 +10,59 @@ class YearChart {
      * @param electionInfo instance of ElectionInfo
      * @param electionWinners data corresponding to the winning parties over mutiple election years
      */
-    constructor (electoralVoteChart, tileChart, votePercentageChart, shiftChart, electionWinners) {
+    constructor (yearData, selectedPlayer, selectedAttribute) {
 
         //Creating YearChart instance
-        this.electoralVoteChart = electoralVoteChart;
-        this.tileChart = tileChart;
-        this.votePercentageChart = votePercentageChart;
-        this.shiftChart = shiftChart;
-        // the data
-        this.electionWinners = electionWinners;
-        
+        // this.electoralVoteChart = electoralVoteChart;
+        // this.tileChart = tileChart;
+        // this.votePercentageChart = votePercentageChart;
+        // this.shiftChart = shiftChart;
+        // // the data
+        // this.electionWinners = electionWinners;
+
+        this.yearData = yearData;
+
         // Initializes the svg elements required for this chart
-        this.margin = {top: 10, right: 20, bottom: 30, left: 50};
-        let divyearChart = d3.select("#year-chart").classed("fullView", true);
+        this.margin = {top: 10, right: 30, bottom: 30, left: 50};
+        let divyearChart = d3.select("#performance_years").classed("fullView", true);
 
         //fetch the svg bounds
         this.svgBounds = divyearChart.node().getBoundingClientRect();
-        this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
-        this.svgHeight = 100;
+        this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right - 350;
+        this.svgHeight = 400;
+
+        this.selectedPlayers = [selectedPlayer];
+
+        // //add the svg to the div
+        // this.svg = divyearChart.append("svg")
+        //     .attr("width", this.svgWidth)
+        //     .attr("height", this.svgHeight);
 
         //add the svg to the div
-        this.svg = divyearChart.append("svg")
+        this.svg = d3.select("#lineChart")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight)
+            .attr("transform", "translate("+200+","+0+")");
+        $("#select2-search").select2({
+            placeholder: "select a player"
+        });
+        let self = this;
+        this.selectedAttribute = selectedAttribute;
+        $('#select2-search').on("change", function(e) {
+            let selectedName = e.target.value;
+            let alreadyAdded = false;
+            for(let name of self.selectedPlayers){
+                if(name === selectedName){
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+            if(!alreadyAdded){
+                self.selectedPlayers.push(e.target.value);
+                self.update(self.selectedPlayers, self.selectedAttribute);
+            }
+            $('#select2-search').val('');
+        });
     };
 
 
@@ -53,109 +83,347 @@ class YearChart {
         }
     }
 
+    populateSearch(players){
+        $("#select2-search").select2({
+            placeholder: "select a player",
+            data: players
+        })
+    };
+
     /**
      * Creates a chart with circles representing each election year, populates text content and other required elements for the Year Chart
      */
-    update () {
+    update(nameList, attrib) {
 
-        //Domain definition for global color scale
-        let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+        var self = this;
+        var playerYearDataList = [];
 
-        //Color range for global color scale
-        let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
+        var attribValues = [];
 
-        //ColorScale be used consistently by all the charts
-        this.colorScale = d3.scaleQuantile()
-            .domain(domain)
-            .range(range);
+        var yearValues = [];
+        nameList.forEach(function(name){
 
-        let self = this;
+            var plyrData =  self.yearData.filter(function(d){
+                return d.player_name == name;
+            });
+            playerYearDataList.push(
+                {
+                    "name" : name,
+                    "playerYearData" : plyrData.sort(function(x, y){
+                        return d3.ascending(+x.year, +y.year);
+                    })
+                })
 
-       // ******* TODO: PART I *******
+            attribValues = attribValues.concat(plyrData.map(function(d){
+                return +d[attrib];
+            }));
 
-       //Style the chart by adding a dashed line that connects all these years.
-    //HINT: Use .lineChart to style this dashed line
-    this.svg.append("line")
-            .attr("x1", 0)
-            .attr("x2", (this.electionWinners.length+1)*75)
-            .attr("y1", 50)
-            .attr("y2", 50)
-            .style("stroke-dasharray","2,2")//dashed array for line
-            .classed("lineChart", true);
+            yearValues = yearValues.concat(plyrData.map(function(d){
+                return +d.year;
+            }));
 
-    let brush = d3.brushX().extent([[0,35],[this.svgWidth,65]]).on("end", function(){
-        let selected = d3.event.selection;
-        if(selected!==null){
-            let min  = selected[0];
-        let max  = selected[1];
-        let selectedYears = []
-        for (var i = 0; i < self.electionWinners.length; i++) {
-            // selecting the states even if half portion is inside brush selection
-            let position = (i+1)*75;
-            if(position>= min && position<=max){
-                selectedYears.push(self.electionWinners[i].YEAR);
-            }
-        }
-        self.shiftChart.updateYears(selectedYears);
-        }
-        
-    });
-    this.svg.append("g").attr("class", "brush").call(brush);
+        });
+        // var playerYearData = self.yearData.filter(function(d){
+        //     return d.player_name == name;
+        // });
 
-    // Create the chart by adding circle elements representing each election year
-    //The circles should be colored based on the winning party for that year
-    //HINT: Use the .yearChart class to style your circle elements
-    //HINT: Use the chooseClass method to choose the color corresponding to the winning party.
-    let circles = this.svg.selectAll("circle").data(this.electionWinners)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d, i){
-                return (i+1)*75;
-            })
-            .attr("cy", 50)
-            .attr("class", function(d, i){
-                return self.chooseClass(d.PARTY);
-            })
-            .attr("r", 10);
+        // playerYearData = playerYearData.sort(function(x, y){
+        //     return d3.ascending(+x.year, +y.year);
+        // });
 
-    //Append text information of each year right below the corresponding circle
-    //HINT: Use .yeartext class to style your text elements
-    this.svg.selectAll("text").data(this.electionWinners)
-            .enter()
-            .append("text")
-            .attr("x", function(d, i){
-               return (i+1)*75; 
-            })
-            .attr("y", 90)
-            .classed("yeartext", true)
-            .text(function(d){
-                return d.YEAR;
+        console.log(playerYearDataList);
+
+        // var attribValues = playerYearData.map(function(d){
+        //     return +d[attrib];
+        // });
+
+
+
+        console.log(attribValues);
+
+        console.log(yearValues);
+        console.log(d3.min(attribValues));
+        console.log(d3.max(attribValues));
+
+        console.log(d3.min(yearValues));
+        console.log(d3.max(yearValues));
+
+        // console.log(d3.min(attribValues, d => +d));
+
+        let yScale = d3.scaleLinear()
+            .domain([d3.min(attribValues, d => d), d3.max(attribValues, d => d)])
+            .range([self.svgHeight - self.margin.top - self.margin.bottom, 0]);
+
+        let yAxis = d3.axisLeft();
+        // assign the scale to the axis
+        yAxis.scale(yScale);
+
+
+        var yAxisG = d3.select("#yAxis")
+            .attr("transform", "translate("+self.margin.left+"," + self.margin.top +")");
+        // self.svg.append("g")
+        // .attr("class" , "yAxis");
+
+        console.log(yAxisG);
+
+        yAxisG.transition(3000).call(yAxis);
+
+
+        let xScale = d3.scaleLinear()
+            .domain([d3.min(yearValues), d3.max(yearValues)])
+            .range([0, self.svgWidth - self.margin.left - self.margin.right]);
+
+        let xAxis = d3.axisBottom();
+        // assign the scale to the axis
+        xAxis.scale(xScale);
+
+
+        var xAxisG = d3.select("#xAxis")
+            .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.svgHeight - self.margin.bottom) +")");
+        // self.svg.append("g")
+        // .attr("class" , "yAxis");
+
+        console.log(xAxisG);
+
+        xAxisG.transition(3000).call(xAxis);
+        self.svg.selectAll(".playerPath").remove();
+        playerYearDataList.forEach(function(player){
+            console.log(player.name);
+            console.log(player.playerYearData);
+
+            var lineCoords = player.playerYearData.map(function(d){
+                return [xScale(+d.year) , yScale(+d[attrib])];
             });
 
-    //Clicking on any specific year should highlight that circle and  update the rest of the visualizations
-    //HINT: Use .highlighted class to style the highlighted circle
-    //Election information corresponding to that year should be loaded and passed to
-    // the update methods of other visualizations
-    circles.on("click", function(d){
-        d3.selectAll(".highlighted").classed("highlighted", false);
-        d3.selectAll(".yearChart").attr("r", 10);
-        d3.select(this).classed("highlighted", true).attr("r", 20);
+            console.log(lineCoords);
 
-        d3.csv("data/Year_Timeline_"+d.YEAR+".csv", function (error, electionInfo) {
-            self.electoralVoteChart.update(electionInfo, self.colorScale);
-            self.votePercentageChart.update(electionInfo);
-            self.tileChart.update(electionInfo, self.colorScale);
+            var lineGenerator = d3.line();
+            var pathString = lineGenerator(lineCoords);
+
+            console.log(pathString);
+
+            self.svg.append('path')
+                .attr('d', pathString)
+                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
+                .attr("style", "fill : none ;stroke: black")
+                .attr("class", "playerPath")
+
+            ;
+
         });
-    });
 
 
-    //******* TODO: EXTRA CREDIT *******
+        var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
 
-    //Implement brush on the year chart created above.
-    //Implement a call back method to handle the brush end event.
-    //Call the update method of shiftChart and pass the data corresponding to brush selection.
-    //HINT: Use the .brush class to style the brush.
+        self.svg.append("g").attr("class", "brush").call(brush);
+
+
+        function brushed() {
+            console.log(d3.event.selection);
+
+            var sel = d3.event.selection;
+
+            var yearValuesBrushed = yearValues.filter((d) => xScale(d)+self.margin.left+ 10 >= sel["0"] &&  xScale(d)+self.margin.left+ 10  <= sel["1"]);
+
+            var uniqueYrs = yearValuesBrushed.filter(function(elem, index, self) {
+                return index == self.indexOf(elem);
+            });
+
+            console.log(uniqueYrs);
+
+
+            // var dataSel = self.posd.filter((d) => d.position >= sel["0"] && d.position <= sel["1"]);
+            // window.selectedStatesIn = dataSel.map( d => d.elem);
+            // self.shiftChart.update(window.selectedStatesIn, window.selectedYearsIn);
+            self.updateBars(playerYearDataList, uniqueYrs , attrib);
+
+
+        }
+
+        this.listPlayers(nameList);
+    };
+
+    updateBars(playerYearDataList, yearSelection , attrib ){
+
+        console.log(playerYearDataList);
+        console.log(yearSelection);
+        console.log(attrib);
+
+        var self = this;
+        self.svgBars = d3.select("#barChart")
+            .attr("width", self.svgWidth)
+            .attr("height", self.svgHeight);
+
+        let divyearBars = d3.select("#performance_per_years").classed("fullView", true);
+
+        divyearBars.selectAll("*").remove();
+
+        var svgBounds = divyearBars.node().getBoundingClientRect();
+        var svgWidth = svgBounds.width - self.margin.left - self.margin.right;
+
+        var svgHeight = 400;
+
+        // //add the svg to the div
+
+        yearSelection.forEach(function(year){
+
+            var playerAttrib = [];
+
+            var attribs = [];
+
+            playerYearDataList.forEach(function(player){
+
+                var yearData =  player.playerYearData.filter(function(d){
+                    return +d.year == year
+                })[0];
+
+                playerAttrib.push(
+                    {
+                        name: player.name,
+                        data : yearData
+                    }
+                );
+
+                attribs.push(+yearData[attrib]);
+
+            });
+
+            console.log(playerAttrib);
+
+            console.log(attribs);
+
+            //
+            // var attribValues = [];
+            //
+            // nameList.forEach(function(name){
+            //
+            //     var plyrData =  self.yearData.filter(function(d){
+            //         return d.player_name == name;
+            //     });
+            //     playerYearDataList.push(
+            //         {
+            //             "name" : name,
+            //             "playerYearData" : plyrData.sort(function(x, y){
+            //                 return d3.ascending(+x.year, +y.year);
+            //             })
+            //         })
+            //
+            //     attribValues = attribValues.concat(plyrData.map(function(d){
+            //         return +d[attrib];
+            //     }));
+            //
+            //     yearValues = yearValues.concat(plyrData.map(function(d){
+            //         return +d.year;
+            //     }));
+            //
+            // });
+            //
+
+            var svgbar = divyearBars.append("svg")
+                .attr("width", svgWidth/2)
+                .attr("height", svgHeight);
+
+
+            var yScale = d3.scaleLinear()
+                .domain([Math.max(d3.min(attribs) - 10 , 0 ), d3.max(attribs)])
+                .range([svgHeight - self.margin.top - self.margin.bottom, 0]);
+
+
+            console.log(svgHeight - self.margin.top - self.margin.bottom);
+            console.log(yScale(9));
+
+            let yAxis = d3.axisLeft();
+            // assign the scale to the axis
+            yAxis.scale(yScale);
+
+
+            var yAxisG = svgbar.append("g")  //d3.select("#yAxis")
+                .attr("transform", "translate("+self.margin.left+"," + self.margin.top +")");
+            // self.svg.append("g")
+            // .attr("class" , "yAxis");
+
+            console.log(yAxisG);
+
+            yAxisG.transition(3000).call(yAxis);
+
+
+            let xScale = d3.scaleLinear()
+                .domain([0, attribs.length])
+                .range([0, svgWidth/2 - self.margin.left - self.margin.right]);
+
+            let xAxis = d3.axisBottom();
+            // assign the scale to the axis
+            xAxis.scale(xScale);
+
+
+            var xAxisG = svgbar.append("g") //d3.select("#xAxis")
+                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.svgHeight - self.margin.bottom) +")");
+            // self.svg.append("g")
+            // .attr("class" , "yAxis");
+
+            console.log(xAxisG);
+
+            xAxisG.transition(3000).call(xAxis);
+
+            var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
+
+
+            var bars = svgbar.selectAll("#bars")
+                .data(attribs);
+
+            var newBars = bars
+                .enter()
+                .append("rect")
+                .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
+                .attr("y" , d => yScale(d))
+                // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
+                .attr("width", rectWidth)
+                .attr("height", d => {
+                    return svgHeight - yScale(d) - self.margin.bottom;
+                })
+                .classed("yearBar", true);
+
+            bars.exit()
+                .attr("opacity", 1)
+                .transition()
+                .duration(3000)
+                .attr("opacity", 0)
+                .remove();
+
+
+            bars = newBars.merge(bars);
+
+            bars
+                .transition()
+                .duration(3000)
+                .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
+                .attr("y" , d => yScale(d))
+                // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
+                .attr("width", rectWidth)
+                .attr("height", d => {
+                    return svgHeight - yScale(d) - self.margin.bottom;
+                })
+
+
+        });
 
     };
 
+    listPlayers(nameList) {
+        let self = this;
+        let li = d3.select("#selected-players").selectAll('li').data(nameList);
+        let newLi = li.enter().append('li');
+        li.exit().remove();
+        li = newLi.merge(li);
+        li.on('click', function(d){
+            self.selectedPlayer = d;
+            self.showNames();
+            self.update(d);
+        })
+        li.transition()
+            .duration(1000)
+            .text(function(d){
+                return d + " x";
+            });
+    }
 };

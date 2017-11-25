@@ -34,6 +34,7 @@ div.tab button.active {
 .tabcontent {
     display: none;
     padding: 6px 12px;
+    border: 1px solid #ccc;
     border-top: none;
 }
 
@@ -59,4 +60,32 @@ div.tab button.active {
 .player-text{
     font-family: Lato;
     font-size: 20px;
+}
+
+.brushtext{
+    text-anchor:middle;
+    font-size: 12px;
+    fill: #565656;
+    stroke-width: 0.1px;
+    /*stroke: #e5e5e5;*/
+}
+
+
+.brush .selection {
+    fill-opacity: .5;
+}
+
+.yearBar{
+    fill: blue;
+    stroke : white;
+    stroke-width: 2;
+}
+#performance_per_years {
+    margin-top: 10%;
+}
+#player_attributes {
+    margin-bottom: 7%;
+}
+.select2-container{
+    width: 150px;
 }
