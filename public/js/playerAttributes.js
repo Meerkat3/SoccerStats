@@ -129,7 +129,7 @@ class PlayerAttributes {
                 }
                 return "player-text";
             })
-            .attr("transform", "translate("+20+","+20+")");;
+            .attr("transform", "translate("+20+","+20+")");
 
         let attributes = [
             "overall_rating",

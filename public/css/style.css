@@ -3,21 +3,26 @@ body {font-family: "Lato", sans-serif;}
 /* Style the tab */
 div.tab {
     overflow: hidden;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     background-color: #f1f1f1;
+    margin-top: -1%;
 }
 
 /* Style the buttons inside the tab */
 div.tab button {
     background-color: inherit;
     float: left;
-    border: none;
+    /*border: none;*/
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
     font-size: 17px;
-    width: 50%;
+    width: 20%;
+}
+
+div.tab:nth-child(1), div.tab:nth-child(2){
+
 }
 
 /* Change background color of buttons on hover */
@@ -34,8 +39,8 @@ div.tab button.active {
 .tabcontent {
     display: none;
     padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
+    /*border: 1px solid #ccc;*/
+    /*border-top: none;*/
 }
 
 #player-names{
@@ -140,4 +145,8 @@ body{
     margin: -1px 0 0 0;
     top: 100%;
     left: 0;
+}
+a{
+    text-decoration: none !important;
+    color: black;
 }

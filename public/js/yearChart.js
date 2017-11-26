@@ -294,7 +294,9 @@ class YearChart {
         console.log(playerYearDataList);
         console.log(yearSelection);
         console.log(attrib);
-
+        if(playerYearDataList.length === 1){
+            return;
+        }
         var self = this;
         self.svgBars = d3.select("#barChart")
             .attr("width", self.svgWidth)

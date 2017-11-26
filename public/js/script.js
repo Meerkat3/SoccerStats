@@ -1,4 +1,8 @@
 function openCity(evt, tabName) {
+    if(tabName === "ProcessBook"){
+        window.open("Process Book.pdf");
+        return;
+    }
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -23,6 +27,4 @@ d3.csv("data/Latest_attributes.csv", function (error, playerDaya) {
         let playerAttributes = new PlayerAttributes(playerDaya, yearAttribs, selectedPlayer, selectedAttribute);
     });
 });
-
-
 
