@@ -13,13 +13,14 @@ class Leagues {
     constructor (leagueData , selectedLeague) {
 
         // Initializes the svg elements required for this chart
-        this.margin = {top: 10, right: 20, bottom: 30, left: 50};
-        let divyearChart = d3.select("#club_heatmap").classed("fullView", true);
+        this.margin = {top: 30, right: 20, bottom: 30, left: 140};
+        let divHeatMap = d3.select("#performance_years").classed("fullView", true);
 
         //fetch the svg bounds
-        // this.svgBounds = divyearChart.node().getBoundingClientRect();
-        // this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
-        // this.svgHeight = 100;
+        this.svgBounds = divHeatMap.node().getBoundingClientRect();
+        // console.log(this.svgBounds);
+        this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
+        this.svgHeight = 600;
 
         //add the svg to the div
         // this.svg = divyearChart.append("svg")
@@ -42,9 +43,40 @@ class Leagues {
         // this.playerData.forEach(function(player){
         //     players.push(player.player_name);
         // });
-        // this.populateNames(uniqueLeagues);
+        this.populateNames(uniqueLeagues);
+        document.getElementById("league-names").style.display = "none";
         d3.select("#league-select-btn")
-            .on("click", this.showNames)
+            .on("click", this.showNames);
+
+
+        var divColorLegend = d3.select("#color_legend").classed("legend", true);
+        var divLeagueDetails = d3.select("#league_details").classed("heatmap", true);
+
+        //fetch the svg bounds
+        // this.svgBoundsLegend = divColorLegend.node().getBoundingClientRect();
+        // console.log(this.svgBoundsLegend);
+        this.svgWidthLegend = 0.3*this.svgBounds.width- this.margin.left - this.margin.right ;
+        // console.log(this.svgWidthLegend );
+        this.svgHeightLegend = 600;
+
+        //fetch the svg bounds
+        // this.svgBoundsLeague = divLeagueDetails.node().getBoundingClientRect();
+        // console.log(this.svgBoundsLeague);
+        this.svgWidthLeague = 0.7*this.svgBounds.width - this.margin.left - this.margin.right ;
+        // console.log(this.svgWidthLeague );
+        this.svgHeightLeague = 600;
+
+        this.svgLegend = d3.select("#legend")
+            .attr("width", this.svgWidthLegend)
+            .attr("height", this.svgHeightLegend );
+
+
+        this.svgLeague = d3.select("#league")
+            .attr("width", this.svgWidthLeague)
+            .attr("height", this.svgHeightLeague );
+
+
+
         // this.update(this.selectedPlayer);
         // this.playerChart = playerChart;
         // this.playerChart.update([this.selectedPlayer], selectedAttribute);
@@ -59,9 +91,9 @@ class Leagues {
         li = newLi.merge(li);
         li.on('click', function(d){
             self.selectedLeague = d;
-            self.showNames();
-            // self.update(d);
-        })
+            // self.showNames();
+            self.update(d);
+        });
         li.transition()
             .duration(1000)
             .text(d => d);
@@ -86,6 +118,7 @@ class Leagues {
     }
 
     showNames (){
+
         var x = document.getElementById("league-names");
         if (x.style.display === "none" || x.style.display === "") {
             x.style.display = "flex";
@@ -98,77 +131,160 @@ class Leagues {
      * Creates a chart with circles representing each election year, populates text content and other required elements for the Year Chart
      */
     update (name) {
-        let imageUrl = null;
-        let playerDetails= [];
-        let singlePlayerData = null;
-        this.playerData.forEach(function(player){
-            if(player.player_name===name){
-                singlePlayerData = player;
-                imageUrl = player.image;
-                playerDetails.push("name : "+player.player_name);
-                playerDetails.push("birthday : "+player.birthday);
-                playerDetails.push("height : "+player.height);
-                playerDetails.push("weight : "+player.weight);
-                playerDetails.push("overall_rating: "+player.overall_rating);
-            }
-        })
-        let imageSvg = d3.select("#image");
-        imageSvg.select(".player-image").remove();
-        imageSvg.append("svg:image")
-            .attr("class", "player-image")
-            .attr("xlink:href", "http://stargist.com/wp-content/uploads/2017/04/Lionel-messi.jpg")
-            .attr("x", "10")
-            .attr("y", "10")
-            .attr("width", "300")
-            .attr("height", "300");
+        var self = this;
 
-        let details = d3.select("#details").selectAll("text").data(playerDetails);
-        let newDetails = details.enter().append("text");
-        details.exit().remove();
-        details = newDetails.merge(details);
-        details.text(d => d)
-    .attr("x", 10)
-            .attr("y", function(d, i){
-                return (i+1)*55;
-            })
-            .attr("class", function(d){
-                if(d.indexOf("name") > -1){
-                    return "player-title";
-                }
-                return "player-text";
-            });
-
-        let attributes = [
-            "overall_rating",
-            "finishing",
-            "dribbling",
-            "acceleration",
-            "sprint_speed",
-            "volleys",
-            "ball_control",
-            "penalties",
-            "free_kick_accuracy",
-            "crossing",
-            "balance",
-            "heading_accuracy",
-            "aggression",
-            "jumping",
-            "stamina",
-            "short_passing",
-            "long_passing",
-            "interceptions",
-            "positioning",
-            "marking",
-            "gk_reflexes"
-        ];
-
-        let data = [];
-        attributes.forEach(function(s){
-            data.push({"attribute": s, value: singlePlayerData[s]});
+        var clubData = self.leagueData.filter(function(d){
+            return d.league_name == name;
         });
-        let realData = [];
-        realData.push(data);
-        this.drawChart(realData);
+
+        console.log(clubData);
+
+        var points = clubData.map(d => +d.points);
+
+        // var svgLegend = d3.select("svg");
+
+        // Color legend.
+        var colorScale = d3.scaleQuantize()
+            .domain([ d3.min(points), d3.max(points) ])
+            .range(colorbrewer.YlGn[9]);
+
+        var colorLegend = d3.legendColor()
+            .labelFormat(d3.format(".0f"))
+            .scale(colorScale)
+            .shapePadding(10)
+            .shapeWidth(30)
+            .shapeHeight(30)
+            .labelOffset(10);
+
+        self.svgLegend.selectAll("*").remove();
+
+        self.svgLegend.append("g")
+            .attr("transform", "translate(50, 60)")
+            .call(colorLegend);
+
+        var clubs = clubData.map(d => d.team_long_name);
+
+        var uniqueClubs  = clubs.filter(function(item, pos) {
+            return clubs.indexOf(item) == pos;
+        });
+
+        console.log(uniqueClubs);
+
+        var numClubs = uniqueClubs.length;
+
+        var seasons = clubData.map(d => d.season);
+
+        var uniqueSeasons = seasons.filter(function(item, pos) {
+            return seasons.indexOf(item) == pos;
+        });
+
+        console.log(uniqueSeasons);
+
+        var numSeasons = uniqueSeasons.length;
+
+
+
+
+        let yScale = d3.scaleLinear()
+            .domain( [0 , numClubs])
+    .range([ 0 , self.svgHeightLeague - self.margin.top - self.margin.bottom]);
+
+        let yAxis = d3.axisLeft()
+            .tickFormat(function(d, i ) {
+                console.log(uniqueClubs[i]);
+                return uniqueClubs[i];
+            })
+            .ticks(numClubs);
+        // assign the scale to the axis
+        yAxis.scale(yScale);
+
+
+        var yAxisG = d3.select("#yAxisLeague")
+            .attr("transform", "translate("+self.margin.left+"," + self.margin.top +")");
+        // self.svg.append("g")
+        // .attr("class" , "yAxis");
+
+        console.log(yAxisG);
+
+        yAxisG.transition(6000).call(yAxis);
+
+
+        let xScale = d3.scaleLinear()
+            .domain([ 0 , numSeasons])
+            .range([0, self.svgWidthLeague - self.margin.left - self.margin.right]);
+
+
+
+        let xAxis = d3.axisBottom()
+            .tickFormat(function(d, i ) {
+            console.log(uniqueSeasons[i]);
+            return uniqueSeasons[i];
+        })
+            .ticks(numSeasons);
+        // assign the scale to the axis
+        xAxis.scale(xScale);
+
+
+        var xAxisG = d3.select("#xAxisLeague")
+            .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.svgHeightLeague - self.margin.bottom) +")");
+        // self.svg.append("g")
+        // .attr("class" , "yAxis");
+
+        console.log(xAxisG);
+
+        xAxisG.transition(6000).call(xAxis);
+
+        var xWidth =  self.svgWidthLeague - self.margin.left - self.margin.right;
+        var yHeight  = self.svgHeightLeague - self.margin.top - self.margin.bottom;
+        var xTrans = self.margin.left+ 10;
+        var yTrans = self.margin.top;
+
+        var rectWidth = xWidth/numSeasons;
+        var rectHeight = yHeight/numClubs;
+
+
+        var svgRects = d3.select("#rectBars");
+
+        let barGroups = svgRects.selectAll(".barGroup")
+            .data(clubData);
+
+        // ------ taking care of entering elements ----
+        let barGroupsEnter = barGroups.enter()
+            .append("g")
+            .classed("barGroup", true); // assigning the class
+
+        // ------ taking care of removing elements ----
+        barGroups.exit().remove();
+
+
+        // appending and initializing the rects
+        barGroupsEnter.append("rect")
+            .attr("width", "0")
+            .attr("height", 20)
+            .style("fill", "gray");
+
+        barGroupsEnter.append("text");
+
+        // merge selections
+        barGroups = barGroups.merge(barGroupsEnter);
+
+        // ------ taking care of updates ----
+        // update groups
+        barGroups.attr("transform", function (d, i) {
+            return "translate(0," + i * barHeight + ")";
+        });
+
+        // the selection propagates update data from the group to the rectangle
+        barGroups.select("rect")
+            .transition().duration(3000)
+            .attr("width", function (d) {
+                return d;
+            })
+            .style("fill", "steelblue")
+            .attr("opacity", 1);
+
+
+
 
     };
 

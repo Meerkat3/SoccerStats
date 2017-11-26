@@ -14,7 +14,7 @@ class PlayerAttributes {
 
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 30, left: 50};
-        let divyearChart = d3.select("#player_attributes").classed("fullView", true);
+        let divPlayer = d3.select("#player_attributes").classed("fullView", true);
 
         //fetch the svg bounds
         // this.svgBounds = divyearChart.node().getBoundingClientRect();
@@ -52,7 +52,7 @@ class PlayerAttributes {
                 self.selectedPlayer = d;
                 self.showNames();
                 self.update(d);
-            })
+            });
         li.transition()
             .duration(1000)
             .text(d => d);

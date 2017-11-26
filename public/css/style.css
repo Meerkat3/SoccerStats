@@ -52,6 +52,36 @@ div.tab button.active {
     cursor: pointer;
 }
 
+
+#league-names{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1%;
+    display: none;
+}
+
+#league-names li{
+    width: 20%;
+    cursor: pointer;
+}
+
+.legend {
+    display: inline-block;
+    width: 20%;
+    float: left;
+}
+
+.heatmap{
+    display: inline-block;
+    width: 80%;
+    float:right;
+
+}
+
+
+
 .player-title{
     font-family: Lato;
     font-size: 30px;
