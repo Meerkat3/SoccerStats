@@ -67,6 +67,11 @@ div.tab button.active {
     cursor: pointer;
 }
 
+#league rect {
+    stroke : white;
+    stroke-width: 1;
+}
+
 .legend {
     display: inline-block;
     width: 20%;
