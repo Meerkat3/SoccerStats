@@ -42,9 +42,9 @@ class YearChart {
         this.svg = d3.select("#lineChart")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight)
-            .attr("transform", "translate("+200+","+0+")");
+            .attr("transform", "translate("+400+","+0+")");
         $("#select2-search").select2({
-            placeholder: "select a player"
+            placeholder: "select a player to compare"
         });
         let self = this;
         this.selectedAttribute = selectedAttribute;
@@ -63,6 +63,40 @@ class YearChart {
             }
             $('#select2-search').val('');
         });
+        let attributes = [
+            "overall_rating",
+            "finishing",
+            "dribbling",
+            "acceleration",
+            "sprint_speed",
+            "volleys",
+            "ball_control",
+            "penalties",
+            "free_kick_accuracy",
+            "crossing",
+            "balance",
+            "heading_accuracy",
+            "aggression",
+            "jumping",
+            "stamina",
+            "short_passing",
+            "long_passing",
+            "interceptions",
+            "positioning",
+            "marking",
+            "gk_reflexes"
+        ];
+        let attributeDropdown = document.getElementById('attribute-search');
+        for(var i = 0; i < attributes.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = attributes[i];
+            opt.value = attributes[i];
+            attributeDropdown.appendChild(opt);
+        }
+        d3.select('#attribute-search')
+            .on('change', function() {
+                self.changeAttribute();
+            });
     };
 
 
@@ -85,7 +119,7 @@ class YearChart {
 
     populateSearch(players){
         $("#select2-search").select2({
-            placeholder: "select a player",
+            placeholder: "select a player to compare",
             data: players
         })
     };
@@ -184,9 +218,14 @@ class YearChart {
         // .attr("class" , "yAxis");
 
         console.log(xAxisG);
+        let color = d3.scaleLinear()
+            .domain([0, playerYearDataList.length])
+            // .range(["#016450", "#ece2f0"]);
+            .range(["#2019F6", "#F61936"]);
 
         xAxisG.transition(3000).call(xAxis);
         self.svg.selectAll(".playerPath").remove();
+        let playerIndex = 0;
         playerYearDataList.forEach(function(player){
             console.log(player.name);
             console.log(player.playerYearData);
@@ -205,14 +244,17 @@ class YearChart {
             self.svg.append('path')
                 .attr('d', pathString)
                 .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
-                .attr("style", "fill : none ;stroke: black")
+                .attr("style", "fill : none;")
                 .attr("class", "playerPath")
-
-            ;
-
+                .attr("id", player.name+"-path")
+                .style("stroke", function(d, i){
+                    return color(playerIndex);
+                });
+            playerIndex++;
         });
 
-
+        d3.selectAll(".brush").remove();
+        d3.selectAll("#performance_per_years svg").remove()
         var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
 
         self.svg.append("g").attr("class", "brush").call(brush);
@@ -222,6 +264,10 @@ class YearChart {
             console.log(d3.event.selection);
 
             var sel = d3.event.selection;
+
+            if(sel === null){
+                return;
+            }
 
             var yearValuesBrushed = yearValues.filter((d) => xScale(d)+self.margin.left+ 10 >= sel["0"] &&  xScale(d)+self.margin.left+ 10  <= sel["1"]);
 
@@ -240,7 +286,7 @@ class YearChart {
 
         }
 
-        this.listPlayers(nameList);
+        this.listPlayers(nameList, color);
     };
 
     updateBars(playerYearDataList, yearSelection , attrib ){
@@ -263,6 +309,13 @@ class YearChart {
 
         var svgHeight = 400;
 
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return "<span style='color:red'>" + d.name + "</span>";
+            });
+
         // //add the svg to the div
 
         yearSelection.forEach(function(year){
@@ -280,7 +333,8 @@ class YearChart {
                 playerAttrib.push(
                     {
                         name: player.name,
-                        data : yearData
+                        data : yearData,
+                        value: +yearData[attrib]
                     }
                 );
 
@@ -322,7 +376,7 @@ class YearChart {
             var svgbar = divyearBars.append("svg")
                 .attr("width", svgWidth/2)
                 .attr("height", svgHeight);
-
+            svgbar.call(tip);
 
             var yScale = d3.scaleLinear()
                 .domain([Math.max(d3.min(attribs) - 10 , 0 ), d3.max(attribs)])
@@ -369,19 +423,26 @@ class YearChart {
 
 
             var bars = svgbar.selectAll("#bars")
-                .data(attribs);
+                .data(playerAttrib);
 
             var newBars = bars
                 .enter()
                 .append("rect")
                 .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
-                .attr("y" , d => yScale(d))
+                .attr("y" , function(d){
+                    return yScale(d.value);
+                })
                 // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
                 .attr("width", rectWidth)
                 .attr("height", d => {
-                    return svgHeight - yScale(d) - self.margin.bottom;
+                    return svgHeight - yScale(d.value) - self.margin.bottom;
                 })
-                .classed("yearBar", true);
+                .attr("class", function(d, i){
+                    return playerAttrib[i].name+"-bar";
+                })
+                .classed("yearBar", true)
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
 
             bars.exit()
                 .attr("opacity", 1)
@@ -397,33 +458,68 @@ class YearChart {
                 .transition()
                 .duration(3000)
                 .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
-                .attr("y" , d => yScale(d))
+                .attr("y" , d => yScale(d.value))
                 // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
                 .attr("width", rectWidth)
                 .attr("height", d => {
-                    return svgHeight - yScale(d) - self.margin.bottom;
-                })
-
+                    return svgHeight - yScale(d.value) - self.margin.bottom;
+                });
+            // let text = svgbar.selectAll("text.playerName").data(attribs);
+            // let newText = text.enter().append("text");
+            // text.exit().remove();
+            // text = newText.merge(text);
+            // text.transition()
+            //     .duration(3000)
+            //     .attr("x", (d, i) => self.margin.left + 10 + i * rectWidth+(rectWidth/2))
+            //     .attr("y", d => yScale(d)+100)
+            //     .attr("class","playerName")
+            //     .text(function (d, i) {
+            //         return playerAttrib[i].name;
+            //     });
 
         });
 
     };
 
-    listPlayers(nameList) {
+    listPlayers(nameList, colorScale) {
         let self = this;
         let li = d3.select("#selected-players").selectAll('li').data(nameList);
         let newLi = li.enter().append('li');
         li.exit().remove();
         li = newLi.merge(li);
         li.on('click', function(d){
-            self.selectedPlayer = d;
-            self.showNames();
-            self.update(d);
-        })
+            let players = [];
+            if(self.selectedPlayers.length === 1){
+                return;
+            }
+            for(let name of self.selectedPlayers){
+                if(name === d){
+                    continue;
+                }
+                players.push(name);
+            }
+            self.selectedPlayers = players;
+            self.update(self.selectedPlayers, self.selectedAttribute);
+        });
         li.transition()
             .duration(1000)
             .text(function(d){
                 return d + " x";
+            })
+            .style("color", function (d, i) {
+                return colorScale(i);
             });
+        // d3.select("#removeInfo").remove();
+        // d3.select("#selected-players").append("text")
+        //     .attr("id", "removeInfo")
+        //     .text("Click on player name to remove from comparison")
+    }
+
+    changeAttribute(){
+        let attr = document.getElementById("attribute-search").value;
+        if(this.selectedAttribute!==attr){
+            this.selectedAttribute = attr;
+            this.update(this.selectedPlayers, this.selectedAttribute);
+        }
     }
 };
