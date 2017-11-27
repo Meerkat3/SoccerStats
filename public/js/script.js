@@ -28,3 +28,16 @@ d3.csv("data/Latest_attributes.csv", function (error, playerDaya) {
     });
 });
 
+
+
+
+d3.csv("data/League.csv", function (error, leagueData) {
+
+    console.log(leagueData);
+    let selectedLeague = "England Premier League";
+    let leagues = new Leagues(leagueData, selectedLeague);
+});
+
+
+
+

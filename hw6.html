@@ -76,12 +76,61 @@
 </div>
 
 <div id="Clubs" class="tabcontent">
-  <h3>Paris</h3>
-  <p>Paris is the capital of France.</p> 
+    <h3>League</h3>
+    <div id="club_heatmap" class="view">
+        <div id="league-select">
+            <button id="league-select-btn">Select League</button>
+        </div>
+        <span id="league-names">
+        </span>
+
+
+
+    </div>
+
+    <div id="color_legend"  class="view">
+        <svg id="legend">
+        </svg>
+    </div>
+
+
+    <div id="league_details"  class="view">
+
+        <svg id="league" >
+                <g class="xAxisLeague"></g>
+                <g class="yAxisLeague"></g>
+        </svg>
+
+        <!--<svg id="rectBars">-->
+
+        <!--</svg>-->
+        <!--<svg width="300" height="300" id="image">-->
+
+        <!--</svg>-->
+        <!--<svg width="300" height="300" id="details">-->
+
+        <!--</svg>-->
+        <!-- <svg width="500" height="300" id="radar-chart">
+
+        </svg> -->
+    </div>
+
 </div>
+
+
+
 
 <script type="application/javascript" src="public/js/yearChart.js"></script>
 <script type="application/javascript" src="public/js/playerAttributes.js"></script>
+
+<script type="application/javascript" src="public/js/Leagues.js"></script>
+
 <script type="application/javascript" src="public/js/script.js"></script>
+
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
+<script src="public/js/colorbrewer.min.js"></script>
+<script type="application/javascript" src="public/js/script.js"></script>
+
 </body>
 </html>
