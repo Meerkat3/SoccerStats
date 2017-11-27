@@ -61,7 +61,7 @@ class YearChart {
                 self.selectedPlayers.push(e.target.value);
                 self.update(self.selectedPlayers, self.selectedAttribute);
             }
-            $('#select2-search').val('');
+            // $('#select2-search').val('');
         });
         let attributes = [
             "overall_rating",
@@ -374,9 +374,9 @@ class YearChart {
             //
             // });
             //
-
+            var numOfChartsPerRow = playerYearDataList.length>3 ? 2: 3;
             var svgbar = divyearBars.append("svg")
-                .attr("width", svgWidth/2)
+                .attr("width", svgWidth/numOfChartsPerRow)
                 .attr("height", svgHeight);
             svgbar.call(tip);
 
@@ -405,7 +405,7 @@ class YearChart {
 
             let xScale = d3.scaleLinear()
                 .domain([0, attribs.length])
-                .range([0, svgWidth/2 - self.margin.left - self.margin.right]);
+                .range([0, playerYearDataList.length*100]);
 
             let xAxis = d3.axisBottom();
             // assign the scale to the axis
@@ -422,6 +422,7 @@ class YearChart {
             xAxisG.transition(3000).call(xAxis);
 
             var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
+            rectWidth = 100;
 
 
             var bars = svgbar.selectAll("#bars")

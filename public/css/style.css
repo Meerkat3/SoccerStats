@@ -137,6 +137,7 @@ div.tab button.active {
 .button{
     height: 29px;
     border-radius: 4px;
+    cursor: pointer;
 }
 #selected-players li{
     width: 16%;
