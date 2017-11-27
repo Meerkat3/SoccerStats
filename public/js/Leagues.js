@@ -279,6 +279,16 @@ class Leagues {
 
 
         var svgRects = d3.select("#league");
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return "<strong> Team:</strong> <span style='color:red'>" + d.team_long_name + "</span> <br>"
+                    + "<strong> Rank:</strong> <span style='color:red'>" + d.rank+ "</span> <br>"
+                    + "<strong> Points:</strong> <span style='color:red'>" + d.points+ "</span> <br>"
+                    + "<strong> Season:</strong> <span style='color:red'>" + d.season+ "</span>";
+            });
+        svgRects.call(tip);
 
         let barGroups = svgRects.selectAll(".barGroup")
             .data(clubData);
@@ -286,7 +296,9 @@ class Leagues {
         // ------ taking care of entering elements ----
         let barGroupsEnter = barGroups.enter()
             .append("g")
-            .classed("barGroup", true); // assigning the class
+            .classed("barGroup", true) // assigning the class
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide)
 
         // ------ taking care of removing elements ----
         barGroups.exit().remove();

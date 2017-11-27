@@ -331,7 +331,9 @@ class YearChart {
                 var yearData =  player.playerYearData.filter(function(d){
                     return +d.year == year
                 })[0];
-
+                if(yearData=== undefined){
+                    return;
+                }
                 playerAttrib.push(
                     {
                         name: player.name,
@@ -404,12 +406,18 @@ class YearChart {
 
 
             let xScale = d3.scaleLinear()
-                .domain([0, attribs.length])
+                .domain([0, playerYearDataList.length])
                 .range([0, playerYearDataList.length*100]);
 
             let xAxis = d3.axisBottom();
             // assign the scale to the axis
-            xAxis.scale(xScale);
+            xAxis.scale(xScale).ticks(playerYearDataList.length)
+                .tickFormat(function(d){
+                    if(d < playerYearDataList.length){
+                        return playerYearDataList[d].name;
+                    }
+                    return "";
+                });
 
 
             var xAxisG = svgbar.append("g") //d3.select("#xAxis")
@@ -419,7 +427,12 @@ class YearChart {
 
             console.log(xAxisG);
 
-            xAxisG.transition(3000).call(xAxis);
+            xAxisG.transition(3000).call(xAxis)
+                .selectAll("text")
+                .style("text-anchor", "start")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "translate("+(20)+",0), rotate(8)");
 
             var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
             rectWidth = 100;
