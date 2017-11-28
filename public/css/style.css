@@ -116,23 +116,25 @@ div.tab button.active {
 }
 
 .yearBar{
-    fill: blue;
+    fill: #014964;
     stroke : white;
     stroke-width: 2;
 }
 #performance_per_years {
-    margin-top: 10%;
+    margin-top: -5%;
 }
 #player_attributes {
     margin-bottom: 7%;
 }
 .select2-container{
     width: 200px !important;
+    vertical-align: top;
 }
 #attribute-search{
     height: 29px;
     border-radius: 4px;
     margin-left: 1%;
+    vertical-align: top;
 }
 .button{
     height: 29px;

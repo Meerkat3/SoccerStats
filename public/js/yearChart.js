@@ -42,7 +42,7 @@ class YearChart {
         this.svg = d3.select("#lineChart")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight)
-            .attr("transform", "translate("+400+","+0+")");
+            .attr("transform", "translate("+-400+","+50+")");
         $("#select2-search").select2({
             placeholder: "select a player to compare"
         });
@@ -135,6 +135,7 @@ class YearChart {
         var attribValues = [];
 
         var yearValues = [];
+        this.selectedPlayers = nameList;
         nameList.forEach(function(name){
 
             var plyrData =  self.yearData.filter(function(d){
@@ -225,6 +226,7 @@ class YearChart {
 
         xAxisG.transition(3000).call(xAxis);
         self.svg.selectAll(".playerPath").remove();
+        self.svg.selectAll(".playerNode").remove();
         let playerIndex = 0;
         playerYearDataList.forEach(function(player){
             console.log(player.name);
@@ -249,13 +251,23 @@ class YearChart {
                 .attr("id", player.name+"-path")
                 .style("stroke", function(d, i){
                     return color(playerIndex);
-                });
+                })
+                .style('opacity', 0.5);
+            lineCoords.forEach(function(point){
+              self.svg.append('circle').attr('cx', point[0])
+                  .attr("cy", point[1])
+                  .attr("r", 5)
+                  .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
+                  .style("fill", color(playerIndex))
+                  .attr("class", "playerNode")
+                  .attr("id", player.name+"-node");
+            })
             playerIndex++;
         });
 
         d3.selectAll(".brush").remove();
         d3.selectAll("#performance_per_years svg").remove()
-        var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
+        var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top-10],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
 
         self.svg.append("g").attr("class", "brush").call(brush);
 
@@ -315,7 +327,8 @@ class YearChart {
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                return "<span style='color:red'>" + d.name + "</span>";
+                return "<span style='color:red'>" + d.name + "</span> "
+                        +"<span style='color:white'>" + d.value+ "</span>";
             });
 
         // //add the svg to the div
@@ -474,11 +487,11 @@ class YearChart {
                 .transition()
                 .duration(3000)
                 .attr("x" , (d,i) => self.margin.left+10 + i*rectWidth)
-                .attr("y" , d => yScale(d.value))
+                .attr("y" , d => yScale(d.value)+self.margin.top)
                 // d => self.margin.top + ( yScale(d3.max(attribs))- yScale(d)))
                 .attr("width", rectWidth)
                 .attr("height", d => {
-                    return svgHeight - yScale(d.value) - self.margin.bottom;
+                    return svgHeight - yScale(d.value) - self.margin.bottom - self.margin.top;
                 });
             // let text = svgbar.selectAll("text.playerName").data(attribs);
             // let newText = text.enter().append("text");
@@ -499,8 +512,16 @@ class YearChart {
 
     listPlayers(nameList, colorScale) {
         let self = this;
-        let li = d3.select("#selected-players").selectAll('li').data(nameList);
-        let newLi = li.enter().append('li');
+        let listSvg = d3.select("#selected-players").attr("transform", "translate(800, -400)");
+        listSvg.selectAll('#listTitle').remove();
+        listSvg.append('text')
+            .attr('x', 50)
+            .attr('y', 20)
+            .attr('id', 'listTitle')
+            .text("Selected Players to compare")
+            .style('fill', 'black');
+        let li = listSvg.selectAll('.selected-names').data(nameList);
+        let newLi = li.enter().append('text');
         li.exit().remove();
         li = newLi.merge(li);
         li.on('click', function(d){
@@ -522,9 +543,16 @@ class YearChart {
             .text(function(d){
                 return d + " x";
             })
-            .style("color", function (d, i) {
+            .attr('x', 100)
+            .attr('y', function(d, i){
+                return (i+1)*20;
+            })
+            .attr('class','selected-names')
+            .style("fill", function (d, i) {
                 return colorScale(i);
-            });
+            })
+            .attr("transform", "translate(0, 20)")
+            .style("cursor", "pointer");
         // d3.select("#removeInfo").remove();
         // d3.select("#selected-players").append("text")
         //     .attr("id", "removeInfo")
