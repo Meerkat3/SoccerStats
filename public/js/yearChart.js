@@ -322,6 +322,7 @@ class YearChart {
         var svgWidth = svgBounds.width - self.margin.left - self.margin.right;
 
         var svgHeight = 400;
+        var svgHeightMargin = 50;
 
         var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -392,7 +393,7 @@ class YearChart {
             var numOfChartsPerRow = playerYearDataList.length>3 ? 2: 3;
             var svgbar = divyearBars.append("svg")
                 .attr("width", svgWidth/numOfChartsPerRow)
-                .attr("height", svgHeight);
+                .attr("height", svgHeight+svgHeightMargin);
             svgbar.call(tip);
 
             var yScale = d3.scaleLinear()
@@ -505,6 +506,11 @@ class YearChart {
             //     .text(function (d, i) {
             //         return playerAttrib[i].name;
             //     });
+            svgbar.append('text')
+                .attr('x', self.margin.left+10+(playerAttrib.length/2)*rectWidth)
+                .attr('y', svgHeight+(svgHeightMargin/2))
+                .style('text-anchor','middle')
+                .text(year);
 
         });
 

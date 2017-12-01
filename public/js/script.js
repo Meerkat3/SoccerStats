@@ -17,6 +17,14 @@ function openCity(evt, tabName) {
 }
 
 document.getElementById("defaultOpen").click();
+d3.select("#sreekanth")
+    .on("click", function(){
+        window.open("https://www.linkedin.com/in/sreekanth-reddy-konda-aa06129b/");
+    });
+d3.select("#sravan")
+    .on("click", function(){
+        window.open("https://www.linkedin.com/in/sneerati/");
+    });
 
 
 d3.csv("data/Latest_attributes.csv", function (error, playerDaya) {
