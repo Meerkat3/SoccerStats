@@ -97,11 +97,11 @@ class PlayerAttributes {
             if(player.player_name===name){
                 singlePlayerData = player;
                 imageUrl = player.image;
-                playerDetails.push("name : "+player.player_name);
-                playerDetails.push("birthday : "+player.birthday);
-                playerDetails.push("height : "+player.height);
-                playerDetails.push("weight : "+player.weight);
-                playerDetails.push("overall_rating: "+player.overall_rating);
+                playerDetails.push(player.player_name);
+                playerDetails.push(player.birthday);
+                playerDetails.push("Height : "+player.height);
+                playerDetails.push("Weight : "+player.weight);
+                playerDetails.push("overall rating: "+player.overall_rating);
             }
         })
         let imageSvg = d3.select("#image");
@@ -119,14 +119,11 @@ class PlayerAttributes {
         details.exit().remove();
         details = newDetails.merge(details);
         details.text(d => d)
-            .attr("x", 10)
+            .attr("x", 100)
             .attr("y", function(d, i){
                 return (i+1)*50;
             })
             .attr("class", function(d){
-                if(d.indexOf("name") > -1){
-                    return "player-title";
-                }
                 return "player-text";
             })
             .attr("transform", "translate("+20+","+20+")");
@@ -143,8 +140,8 @@ class PlayerAttributes {
             "free_kick_accuracy",
             "crossing",
             "balance",
-            "heading_accuracy",
             "aggression",
+            "heading_accuracy",
             "jumping",
             "stamina",
             "short_passing",
@@ -174,7 +171,7 @@ class PlayerAttributes {
             h: height,
             maxValue: 100,
             levels: 5,
-            ExtraWidthX: 300
+            ExtraWidthX: 250
         }
 
         let radarSvg = d3.select(id).selectAll('svg')
@@ -193,7 +190,7 @@ class PlayerAttributes {
             radians: 2 * Math.PI,
             opacityArea: 0.5,
             ToRight: 5,
-            TranslateX: 100,
+            TranslateX: 150,
             TranslateY: 70,
             ExtraWidthX: 100,
             ExtraWidthY: 100,
