@@ -141,8 +141,14 @@ div.tab button.active {
     border-radius: 4px;
     cursor: pointer;
 }
+#selected-players{
+    display: inline-block;
+    float: right;
+    margin-top: -33%;
+    margin-right: 10%;
+}
 #selected-players li{
-    width: 16%;
+    width: 150%;
     cursor: pointer;
     margin-top: 1%;
     font-size: 13px;

@@ -512,16 +512,16 @@ class YearChart {
 
     listPlayers(nameList, colorScale) {
         let self = this;
-        let listSvg = d3.select("#selected-players").attr("transform", "translate(800, -400)");
+        let listSvg = d3.select("#selected-players");
         listSvg.selectAll('#listTitle').remove();
-        listSvg.append('text')
-            .attr('x', 50)
-            .attr('y', 20)
-            .attr('id', 'listTitle')
-            .text("Selected Players to compare")
-            .style('fill', 'black');
+        // listSvg.append('text')
+        //     .attr('x', 50)
+        //     .attr('y', 0)
+        //     .attr('id', 'listTitle')
+        //     .text("Selected Players to compare")
+        //     .style('fill', 'black');
         let li = listSvg.selectAll('.selected-names').data(nameList);
-        let newLi = li.enter().append('text');
+        let newLi = li.enter().append('li').attr('class','selected-names');
         li.exit().remove();
         li = newLi.merge(li);
         li.on('click', function(d){
@@ -547,8 +547,7 @@ class YearChart {
             .attr('y', function(d, i){
                 return (i+1)*20;
             })
-            .attr('class','selected-names')
-            .style("fill", function (d, i) {
+            .style("color", function (d, i) {
                 return colorScale(i);
             })
             .attr("transform", "translate(0, 20)")
