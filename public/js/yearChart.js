@@ -242,6 +242,25 @@ class YearChart {
             var pathString = lineGenerator(lineCoords);
 
             console.log(pathString);
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                    let style = 'color:red; left:'+d3.event.pageX+'px; top:'+d3.event.pageY+'px;';
+                    return "<span style='"+style+"'>" + player.name + "</span> ";
+                });
+            self.svg.call(tip);
+            lineCoords.forEach(function(point){
+                self.svg.append('circle').attr('cx', point[0])
+                    .attr("cy", point[1])
+                    .attr("r", 5)
+                    .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
+                    .style("fill", color(playerIndex))
+                    .attr("class", "playerNode")
+                    .attr("id", player.name+"-node")
+                    .on("mouseover", tip.show)
+                    .on("mouseout", tip.hide);
+            })
 
             self.svg.append('path')
                 .attr('d', pathString)
@@ -252,22 +271,16 @@ class YearChart {
                 .style("stroke", function(d, i){
                     return color(playerIndex);
                 })
-                .style('opacity', 0.5);
-            lineCoords.forEach(function(point){
-              self.svg.append('circle').attr('cx', point[0])
-                  .attr("cy", point[1])
-                  .attr("r", 5)
-                  .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.margin.top) +")")
-                  .style("fill", color(playerIndex))
-                  .attr("class", "playerNode")
-                  .attr("id", player.name+"-node");
-            })
+                .style("stroke-width", 3)
+                .style('opacity', 0.5)
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
             playerIndex++;
         });
 
         d3.selectAll(".brush").remove();
         d3.selectAll("#performance_per_years svg").remove()
-        var brush = d3.brushX().extent([[self.margin.left + 10 ,self.margin.top-10],[self.svgWidth - self.margin.right + 10,self.svgHeight - self.margin.bottom]]).on("end", brushed);
+        var brush = d3.brushX().extent([[self.margin.left,self.svgHeight-self.margin.bottom-20],[self.svgWidth,self.svgHeight-10]]).on("end", brushed);
 
         self.svg.append("g").attr("class", "brush").call(brush);
 
@@ -321,7 +334,7 @@ class YearChart {
         var svgBounds = divyearBars.node().getBoundingClientRect();
         var svgWidth = svgBounds.width - self.margin.left - self.margin.right;
 
-        var svgHeight = 400;
+        var svgHeight = 300;
         var svgHeightMargin = 50;
 
         var tip = d3.tip()
@@ -390,9 +403,10 @@ class YearChart {
             //
             // });
             //
+            let singleSvgWidth = svgWidth/yearSelection.length;
             var numOfChartsPerRow = playerYearDataList.length>3 ? 2: 3;
             var svgbar = divyearBars.append("svg")
-                .attr("width", svgWidth/numOfChartsPerRow)
+                .attr("width", singleSvgWidth)
                 .attr("height", svgHeight+svgHeightMargin);
             svgbar.call(tip);
 
@@ -418,16 +432,18 @@ class YearChart {
 
             yAxisG.transition(3000).call(yAxis);
 
-
+            let xAxisWidth = Math.min(singleSvgWidth-self.margin.right-self.margin.left, 200);
             let xScale = d3.scaleLinear()
                 .domain([0, playerYearDataList.length])
-                .range([0, playerYearDataList.length*100]);
+                .range([0, xAxisWidth]);
 
             let xAxis = d3.axisBottom();
             // assign the scale to the axis
+            var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
+            rectWidth = xAxisWidth/playerYearDataList.length;
             xAxis.scale(xScale).ticks(playerYearDataList.length)
                 .tickFormat(function(d){
-                    if(d < playerYearDataList.length){
+                    if(d < playerYearDataList.length && rectWidth > 50){
                         return playerYearDataList[d].name;
                     }
                     return "";
@@ -435,7 +451,7 @@ class YearChart {
 
 
             var xAxisG = svgbar.append("g") //d3.select("#xAxis")
-                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (self.svgHeight - self.margin.bottom) +")");
+                .attr("transform", "translate("+(self.margin.left+ 10)+"," + (svgHeight - self.margin.bottom) +")");
             // self.svg.append("g")
             // .attr("class" , "yAxis");
 
@@ -446,10 +462,7 @@ class YearChart {
                 .style("text-anchor", "start")
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
-                .attr("transform", "translate("+(20)+",0), rotate(8)");
-
-            var rectWidth = (svgWidth/2 - self.margin.left - self.margin.right)/attribs.length;
-            rectWidth = 100;
+                .attr("transform", "translate("+(rectWidth/2)+",5), rotate(30)");
 
 
             var bars = svgbar.selectAll("#bars")

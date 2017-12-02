@@ -110,11 +110,6 @@ div.tab button.active {
     /*stroke: #e5e5e5;*/
 }
 
-
-.brush .selection {
-    fill-opacity: .5;
-}
-
 .yearBar{
     fill: #014964;
     stroke : white;
@@ -198,4 +193,12 @@ a{
     font-family: Lato;
     font-size: 20px;
     font-weight: bold;
+}
+.brush .selection{
+    fill:purple;
+    fill-opacity: .5;
+}
+.brush .handle{
+    fill: green;
+    fill-opacity: .5;
 }
