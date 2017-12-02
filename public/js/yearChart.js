@@ -443,7 +443,7 @@ class YearChart {
             rectWidth = xAxisWidth/playerYearDataList.length;
             xAxis.scale(xScale).ticks(playerYearDataList.length)
                 .tickFormat(function(d){
-                    if(d < playerYearDataList.length && rectWidth > 50){
+                    if(d < playerYearDataList.length && rectWidth >= 50){
                         return playerYearDataList[d].name;
                     }
                     return "";

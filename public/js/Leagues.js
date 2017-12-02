@@ -73,10 +73,11 @@ class Leagues {
 
         this.svgLeague = d3.select("#league")
             .attr("width", this.svgWidthLeague)
-            .attr("height", this.svgHeightLeague );
+            .attr("height", this.svgHeightLeague )
+            .attr("transform", "translate(50,0)");
 
 
-
+        // $("#league-names li:nth-child(2)").click();
         // this.update(this.selectedPlayer);
         // this.playerChart = playerChart;
         // this.playerChart.update([this.selectedPlayer], selectedAttribute);
@@ -279,6 +280,14 @@ class Leagues {
 
 
         var svgRects = d3.select("#league");
+
+        svgRects.selectAll("#league-name").remove();
+        svgRects
+            .append("text")
+            .attr("x", 350)
+            .attr("y", 13)
+            .attr("id", "league-name")
+            .text(name);
         var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
