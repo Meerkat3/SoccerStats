@@ -1,0 +1,191 @@
+body, html{
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    background-attachment: fixed;
+    width:100%;
+    height:100%;
+    position: relative;
+}
+.wrapper {
+    width:960px;
+    height:200px;
+    margin:0 auto;
+    position:relative;
+}
+
+
+#launch {
+    /*    width: 100%;
+    */    z-index: 10;
+    position: absolute;
+    color: #fff;
+    left: 40%;
+    text-align: center;
+    /*    bottom: 250px;*/
+    font-family: "Poiret One";
+    font-size: 40px;
+    bottom: 500px;
+}
+
+#launch a{
+    color: #FFF;
+    opacity: 0.6;
+    font-family: "Poiret One";
+    text-decoration: none;
+    font-size: 25px;
+}
+
+#launch a:hover{
+    opacity: 1;
+}
+
+#launch button {
+    /*      -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;*/
+    background-color:transparent;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    margin-right: 10px;
+    color:#FFF;
+    padding:6px 14px;
+    /*  text-shadow:0px 1px 0px #ffffff;*/
+}
+
+#cutebike {
+    position: absolute;
+    /*width: 150px;*/
+    left: 0px;
+    bottom: 0px;
+    /*    bottom: 30px;
+    */    z-index: 10;
+}
+
+.header {
+    margin: auto;
+    position: relative;
+    top: 30px;
+    font-size: 30px;
+}
+
+.text {
+    position: relative;
+    top: 50px;
+    width: 70%;
+    margin: auto;
+    padding:20px;
+    background-color: rgba(255,255,255,0.6);
+}
+.slideno {
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    font-size:100px;
+    font-weight:bold;
+    color:rgba(255,255,255,0.3);
+}
+
+.button{
+    display:block;
+    width:50px;
+    height:50px;
+    position:absolute;
+    bottom:0px;
+    left:50%;
+    background-color:#333333;
+    /*background-image:url(../img/arrow.png);*/
+    background-repeat:no-repeat;
+}
+.button:hover{
+    background-color:#494949;
+    cursor:pointer;
+}
+
+/******************************
+ SLIDE 1
+*******************************/
+#slide1{
+    /*background:url(../img/nyc.jpg);*/
+    height: 1150px;
+
+}
+
+.video {
+    margin-top: 100px;
+    margin: 100 auto;
+    text-align: center;
+}
+/*!*******************************/
+ /*SLIDE 2*/
+/********************************!*/
+/*#slide2{*/
+    /*background-color:url(../img/geometry2.png);*/
+
+/*}*/
+/*#slide2 img:first-child{*/
+    /*position:absolute;*/
+    /*top: 700px;*/
+    /*left: -150px;*/
+/*}*/
+/*#slide2 img:nth-child(2){*/
+    /*position:absolute;*/
+    /*top:300px;*/
+    /*left:100px;*/
+/*}*/
+/*#slide2 img:nth-child(3){*/
+    /*position:absolute;*/
+    /*top:600px;*/
+    /*left:300px;*/
+/*}*/
+/*#slide2 img:nth-child(4){*/
+    /*position:absolute;*/
+    /*top:400px;*/
+    /*left:300px;*/
+/*}*/
+/*#slide2 img:nth-child(5){*/
+    /*position:absolute;*/
+    /*top:600px;*/
+    /*right:300px;*/
+/*}*/
+/*#slide2 img:nth-child(6){*/
+    /*position:absolute;*/
+    /*top:600px;*/
+    /*right:300px;*/
+/*}*/
+/*#slide2 img:nth-child(7){*/
+    /*position:absolute;*/
+    /*top:400px;*/
+    /*right:100px;*/
+/*}*/
+/*#slide2 img:nth-child(8){*/
+    /*position:absolute;*/
+    /*top:100px;*/
+    /*right:300px;*/
+/*}*/
+
+/*.navigation {*/
+    /*position:fixed;*/
+    /*z-index:1;*/
+    /*top:30px;*/
+/*}*/
+/*.navigation li, .navigation a {*/
+    /*color:#333333;*/
+    /*display:block;*/
+    /*padding: 0 10px;*/
+    /*line-height:30px;*/
+    /*margin-bottom:2px;*/
+    /*font-weight:bold;*/
+    /*text-decoration: none;*/
+    /*-webkit-transition: all .2s ease-in-out;*/
+    /*border-bottom:1px solid black;*/
+    /*text-align:left;*/
+    /*width:70px;*/
+/*}*/
+/*.navigation li:hover,*/
+/*.active {*/
+    /*font-size:20px;*/
+    /*cursor:pointer;*/
+    /*width:100px!important;*/
+/*}*/

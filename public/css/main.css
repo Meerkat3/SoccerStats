@@ -1,0 +1,408 @@
+body {
+    margin: 0 0;
+    padding: 0 0 50px 0;
+    font-size: 12px;
+    font-family: 'Raleway';
+}
+.dark-cover {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 1;
+    position: absolute;
+    clear: both;
+}
+.button {
+    width: 25px;
+}
+#dates {
+    margin: auto;
+    position: relative;
+    float: left;
+}
+
+#temp {
+    font-family: 'Poiret One';
+    margin-top: -8px;
+    font-size: 14px;
+
+    float: right;
+    padding-right: 5px;
+}
+
+#time {
+    font-size: 16px;
+    font-family: "Poiret One";
+    float: right;
+}
+
+#red {
+    color:red;
+}
+
+#blue {
+    color:blue;
+}
+
+#green {
+    color:green;
+}
+
+.vis_text {
+    padding-top: 10px;
+}
+
+.tick
+{
+    color: #000;
+}
+
+#intro {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    color: #FFF;
+    /*background-image: url('../img/citibike.jpg');*/
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    text-align: center;
+}
+a {
+    z-index: 2;
+}
+
+.row {
+    width: 100%;
+}
+
+.axis {
+    stroke: black;
+    fill: none;
+    stroke-width: 1px;
+}
+
+.axis .halo {
+    stroke: gray;
+    stroke-width: 2px;
+    stroke-linecap: round;
+}
+
+#barchart {
+    float: left;
+}
+
+#aggregate_chart {
+    float: right;
+}
+
+#stations_chart {
+    float: right;
+}
+
+#barchart {
+    width: 30%;
+}
+
+#bikeline {
+    width: 100%;
+}
+
+#aggregate_chart {
+    width: 30%;
+}
+
+#stations_chart {
+    width: 60%;
+}
+
+
+#map
+{
+    width: 40%;
+    height: 70%;
+    float: left;
+    /*  margin: auto;*/
+    padding: 0;
+    z-index: 1;
+}
+
+#map_cover {
+    position:absolute;
+    width: 35%;
+    height: 80%;
+    padding: 0;
+    opacity: 0.4;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+#description_container{
+    width: 55%;
+    float: right;
+}
+
+#introtitle{
+    z-index: 4;
+    font-size: 120px;
+    font-family: 'Poiret One';
+    opacity: 0.85;
+}
+
+.intro-text {
+    z-index: 4;
+    color: #FFF;
+    margin: 0 auto;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    opacity: 0;
+}
+
+#weathericon img {
+    width: 22px;
+    margin-top: -12px;
+    float: right;
+}
+
+#preintro, #byline{
+    z-index: 4;
+    padding: 5px;
+    font-size: 16px;
+    margin: auto;
+    text-align: center;
+    font-family: 'Raleway';
+}
+
+.ui-slider {
+    top: -3px;
+    width: 100%;
+}
+
+.ui-slider-horizontal {
+    height: 0em;
+}
+
+.ui-slider .ui-slider-handle{
+    width:40px;
+    margin-left: -20px;
+    height:40px;
+    background:url(../img/bike.png) no-repeat;
+    background-size: 40px;
+    position:absolute;
+    top: -15px;
+    border-style:none;
+}
+
+#filters {
+    /*  float: left;*/
+    margin-top: 0px;
+    font-family: 'Poiret One';
+    font-size: 16px;
+}
+
+#controls {
+    float: left;
+    left: 0;
+    position: relative;
+
+}
+
+#play_button {
+    float: left;
+}
+
+.background {
+    background-color: white;
+    float: left;
+    position: absolute;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+}
+
+.viscontainer {
+    width: 90%;
+    margin: auto;
+}
+
+.header {
+    text-align: center;
+    color: #000;
+    width: 90%;
+    z-index: 4;
+    top: 200px;
+    margin: auto;
+    font-size: 35px;
+    font-family: 'Poiret One';
+}
+
+.bikes, .stations, .bikes svg, .stations svg {
+    position: absolute;
+}
+
+.bikes, .stations svg {
+    width: 60px;
+    height: 20px;
+    padding-right: 100px;
+    font: 10px sans-serif;
+}
+
+.stations {
+    fill: steelblue;
+    opacity: 0.3;
+}
+
+#category_legend {
+    position:absolute;
+    top: 300px;
+    padding: 5px;
+    background-color: rgba(255,255,255,0.4);
+    z-index: 10;
+}
+
+#line_legend {
+    right: 100px;
+    top: 420px;
+    position: absolute;
+    text-align: right;
+}
+
+#line_buttons {
+    width: 50%;
+    right: 30px;
+    top: 415px;
+    position: absolute;
+}
+
+#pause {
+    display: none;
+    padding-right: 5px;
+}
+
+#play {
+    padding-right: 5px;
+}
+
+.bikes {
+    z-index: 1;
+    opacity: 1;
+    fill:#4D4D4D;
+}
+
+.buttonactive {
+    background-color: #3399FF;
+    color: #FFF;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    padding:6px 14px;
+}
+
+.day {
+    background-color:rgba(255,255,255,0.3);
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    color:#666666;
+    padding:6px 14px;
+}
+.day:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+    background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+    background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+    background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+    background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+    background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+    background-color:#f6f6f6;
+}
+
+.music_left {
+    width: 30%;
+    float: left;
+    padding-left: 20px;
+}
+
+.music_right {
+    width: 60%;
+    float: left;
+    padding-right: 20px;
+}
+
+#legend {
+    font-size: 18px;
+}
+
+#legend_left {
+    width: 50%;
+    float: left;
+}
+#legend_right {
+    width: 50%;
+    float: left;
+}
+
+#flute {
+    color: #87CEFA;
+}
+
+#flute_2 {
+    color: #4682B4;
+}
+
+#oboe {
+    color: #FFB6C1;
+}
+
+#oboe_2 {
+    color: #FF1493;
+}
+
+#corno {
+    color: #FF0000;
+}
+
+#fagotti {
+    color: #32CD32;
+}
+
+#fagotti_2 {
+    color: #006400;
+}
+
+#chorus {
+    color: #778899;
+}
+
+#trombe {
+    color: #9ACD32;
+}
+
+#trombe_2 {
+    color: #7FFFD4  ;
+}
+
+#trombone {
+    color: #20B2AA;
+}
+
+#trombone_2 {
+    color: #3CB371;
+}
+#harp {
+    color:  #FFDAB9;
+}
+
+#viole {
+    color: #FFA500;
+}
+
+#tomato{
+    color:  #FF6347;
+}
+/*.day:active {
+  background-color: #4682B4;
+}*/
