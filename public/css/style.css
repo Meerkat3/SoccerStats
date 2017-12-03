@@ -4,8 +4,7 @@ body {font-family: "Lato", sans-serif;}
 div.tab {
     /*overflow: hidden;*/
     /*border: 1px solid #ccc;*/
-    background-color: dimgrey;
-    margin-top: -1%;
+    background-color: #00008bab;
     width: 100%;
     display: inline-block;
     border-bottom:2px solid dimgrey;
@@ -40,16 +39,17 @@ div.tab button:hover {
 
 /* Create an active/current tablink class */
 div.tab button.active {
-    background-color: #ccc;
+    background-color: #ffffff6b;
     color: black;
 }
 
 /* Style the tab content */
 .tabcontent {
     display: none;
-    padding: 6px 12px;
+    /*padding: 6px 12px;*/
     /*border: 1px solid #ccc;*/
     /*border-top: none;*/
+
 }
 
 #player-names{
@@ -57,8 +57,9 @@ div.tab button.active {
     height: 250px;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 1%;
+    padding-top: 1%;
     display: none;
+    background-color: #10da8f4d;
 }
 
 #player-names li{
@@ -72,8 +73,9 @@ div.tab button.active {
     height: 150px;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 1%;
+    padding-top: 1%;
     display: none;
+    background-color: #10da8f4d;
 }
 
 #league-names li{
@@ -120,19 +122,17 @@ div.tab button.active {
 }
 
 .yearBar{
-    fill: #014964;
     stroke : white;
     stroke-width: 2;
 }
 #performance_per_years {
-    margin-top: 5%;
-}
-#player_attributes {
-    margin-bottom: 7%;
+    margin-top: 0%;
+    background-color: #10da8f1a;
 }
 .select2-container{
     width: 200px !important;
     vertical-align: top;
+    margin-left: 2%;
 }
 #attribute-search{
     height: 29px;
@@ -141,7 +141,7 @@ div.tab button.active {
     vertical-align: top;
 }
 .button {
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
     display: inline-block;
     text-align: center;
@@ -151,9 +151,10 @@ div.tab button.active {
     margin-top: 20px;
     margin-bottom: 10px;
     font-size: 17px;
-    background-color: dimgrey;
+    background-color: #0b0b7e9c;
     color: white;
     font-weight: bolder;
+    margin-left: 0.5em;
 }
 #selected-players{
     display: inline-block;
@@ -231,9 +232,10 @@ a{
     /*background-color: #8f4141;*/
     /*border-bottom: 1px solid #713333;*/
     float: left;
-    background-image: url("/figs/background.jpg");
+    background-image: url("/figs/background1.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
+    background-position: bottom;
 }
 #project-title{
     color: white;
@@ -244,8 +246,10 @@ a{
 }
 #authors {
     display: inline-block;
-    margin-left: 50%;
     color: white;
+    float: right;
+    margin-top: 15%;
+    margin-right: 1%;
 }
 #authors a{
     color: white;
@@ -253,4 +257,27 @@ a{
 }
 #authors a:hover {
     text-decoration: underline;
+}
+#demo-video{
+    margin-top: 5%;
+    margin-left: 20%;
+}
+#player-details{
+    background-color: #10da8f1a;
+    width: 100%;
+}
+#player-select{
+    background-color: #10da8f1a;
+    width: 100%;
+}
+#performance_years{
+    background-color: #c7e9c070;
+    height: 30em;
+    padding-top: 6%;
+}
+#league-select{
+    background-color: #c7e9c0d6;
+}
+#color_legend, #league_details{
+    background-color: #c7e9c070;
 }

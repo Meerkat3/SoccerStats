@@ -306,7 +306,7 @@ class YearChart {
             // var dataSel = self.posd.filter((d) => d.position >= sel["0"] && d.position <= sel["1"]);
             // window.selectedStatesIn = dataSel.map( d => d.elem);
             // self.shiftChart.update(window.selectedStatesIn, window.selectedYearsIn);
-            self.updateBars(playerYearDataList, uniqueYrs , attrib);
+            self.updateBars(playerYearDataList, uniqueYrs , attrib, color);
 
 
         }
@@ -314,7 +314,7 @@ class YearChart {
         this.listPlayers(nameList, color);
     };
 
-    updateBars(playerYearDataList, yearSelection , attrib ){
+    updateBars(playerYearDataList, yearSelection , attrib, colorScale){
 
         console.log(playerYearDataList);
         console.log(yearSelection);
@@ -484,6 +484,9 @@ class YearChart {
                     return playerAttrib[i].name+"-bar";
                 })
                 .classed("yearBar", true)
+                .style("fill", function(d, i){
+                    return colorScale(i)
+                })
                 .on("mouseover", tip.show)
                 .on("mouseout", tip.hide);
 

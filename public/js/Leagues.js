@@ -285,7 +285,7 @@ class Leagues {
         svgRects
             .append("text")
             .attr("x", 350)
-            .attr("y", 13)
+            .attr("y", 20)
             .attr("id", "league-name")
             .text(name);
         var tip = d3.tip()

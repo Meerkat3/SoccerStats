@@ -101,14 +101,14 @@ class PlayerAttributes {
                 playerDetails.push(player.birthday);
                 playerDetails.push("Height : "+player.height);
                 playerDetails.push("Weight : "+player.weight);
-                playerDetails.push("overall rating: "+player.overall_rating);
+                playerDetails.push("Overall Rating: "+player.overall_rating);
             }
         })
         let imageSvg = d3.select("#image");
         imageSvg.select(".player-image").remove();
         imageSvg.append("svg:image")
             .attr("class", "player-image")
-            .attr("xlink:href", "http://stargist.com/wp-content/uploads/2017/04/Lionel-messi.jpg")
+            .attr("xlink:href", imageUrl)
             .attr("x", "10")
             .attr("y", "10")
             .attr("width", "300")
