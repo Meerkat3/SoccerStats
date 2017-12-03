@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soccer Statistics</title>
+    <!--<script src="libs/jquery.min.js" charset="utf-8"></script>-->
+    <!--<script src="libs/d3/d3.min.js" charset="utf-8"></script>-->
+    <!--<script src="libs/jquery.stellar.min.js" charset="utf-8"></script>-->
+    <!--<script src="libs/jquery.easing.1.3.js" charset="utf-8"></script>-->
+    <!--<script type="text/javascript" src="libs/waypoints.min.js"></script>-->
+
+    <script type="text/javascript" src="public/assets/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="public/css/home.css">
+    <link href='http://fonts.googleapis.com/css?family=Raleway|Poiret+One' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+
+<div id = "intro" data-slide="0">
+    <div class = "intro-text">
+        <div id = "preintro">CS6630 PROJECT:</div>
+        <div id = "byline">Sravan Kumar Neerati , Sreekanth Reddy Konda </div>
+
+        <div id = "introtitle">Soccer Statistics</div>
+
+    </div>
+    <img id = "cutebike" src="/img/gerrard3.jpg" alt="">
+    <div class="dark-cover"></div>
+    <div id = "launch">
+        <button><a href="vis.html">Launch Visualization</a></button>
+        <button><div id = "story"><a href="#slide1">About</a></div></button>
+    </div>
+
+</div>
+
+<!--<ul class="navigation">-->
+    <!--<a href="">Intro</a>-->
+    <!--<li data-slide="1">Why CitiBike?</li>-->
+    <!--<li data-slide="2">What We Found</li>-->
+<!--</ul>-->
+<div class="slide" id="slide1" data-slide="1" data-stellar-background-ratio="0.5">
+
+    <div class = "header" data-slide>
+        Soccer Statistics
+    </div>
+    <div class = "text">
+        As passionate Soccer Enthusiasts and avid Football fans, the two of us, Sravan Kumar Neerati and Sreekanth Reddy Konda, set out to make a visualization to celebrate the success of the top Soccer players and Clubs around the world. Soccer fandom has increased tremendously over the years, and the two of us have been lucky to witness the growth of players and clubs from different parts of the world. We hope our project can be both enjoyed by all other soccer enthusiasts and provide helpful insights to the avid followers and fans of the players and clubs.
+
+        </br/>
+        </br/>
+
+        To launch our visualization, simply scroll up to the top of the page and press the 'Launch Visualization' button. Select a player, to see his summary and ratings in different attributes, scroll through the timeline, and to compare the performance over the years with another player, search and select the player(s) from the list .
+        The color codings help differentiate the players from one another, the color of the player name added and the line help relate the same player.
+        When we wish to compare a lot of players and are interested in specific years rather than the while timeline, one can brush along the x-axis timeline
+        and see the bar charts with more emphasis on the ratings for that particular attribute.
+
+        Feel Free to add as many players as possible to the line chart and brush on the x-axis timeline to zoom into the specific years.
+        Although a player has been performing really well in a specific attribute, he might be lagging other attributes of the game and that can be seen clearly in the bar charts.
+        Hovering over the bars or the lines will show the details that are specific to the visualization and get more insights
+        </br/>
+        </br/>
+        Our Visualization also dwells into how the clubs from different leagues have performed over the seaons.
+        The total points scored in a season are color coded which puts up a heatmap that clearly shows the trend in a league.
+        </br/>
+        </br/>
+
+        While not all the clubs are not present in all seasons, the reasons for that can be clearly seen fromt its performance in the previous year.
+        At the same time, we can see the top clubs being highlighted as a result of their consistent performances over the seasons.
+
+    </div>
+    <div class = "video">
+        <iframe width="73%" height="400" src="https://www.youtube.com/embed/JlpVh8tfLZI" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <!--<a class="button" data-slide="2" title=""></a>-->
+    <!--<span class="slideno">Citibike</span>-->
+</div><!--End Slide 1-->
+
+<!--<script>-->
+    <!--(function($) {-->
+        <!--$.fn.goTo = function() {-->
+            <!--$('html, body').animate({-->
+                <!--scrollTop: $(this).offset().top + 'px'-->
+            <!--}, 'fast');-->
+            <!--return this; // for chaining...-->
+        <!--}-->
+    <!--})(jQuery);-->
+<!--</script>-->
+
+<!--     <div class = "container">
+
+    </div> -->
+
+<!--<script>-->
+    <!--$(document).ready(function(){-->
+        <!--$('#intro').css('min-height', $(window).height());-->
+        <!--$('#intro .dark-cover').height($('#intro').height());-->
+        <!--$('#intro .intro-text').css('top', $('#intro').height()/3.5 - $('#intro .intro-text').height()/2);-->
+        <!--$('#intro .dark-cover').delay(1250).animate({'opacity': 0.8}, 2000);-->
+        <!--$('#intro .intro-text').animate({'opacity': 1}, 3000)-->
+        <!--$('#intro #launch').delay(1500).animate({'left': $('#intro').width()/2 - 250}, 7000)-->
+        <!--$('#intro #cutebike').delay(1000).animate({'left': $('#intro').width() - 150}, 10000).animate({'opacity': 0}, 0)-->
+        <!--// $('#intro #launch').css('top', $('#intro').height()/3.5 + 1.5*$('#intro .intro-text').height())-->
+        <!--// $('.arrow').fadeIn(4000).click(function() {-->
+        <!--//     $('html, body').animate({-->
+        <!--//         scrollTop: $("#intro").height()-->
+        <!--//     }, 1000);-->
+        <!--// });-->
+
+        <!--jQuery(document).ready(function ($) {-->
+
+
+            <!--//initialise Stellar.js-->
+            <!--$(window).stellar();-->
+
+            <!--//Cache some variables-->
+            <!--var links = $('.navigation').find('li');-->
+            <!--slide = $('.slide');-->
+            <!--button = $('.button');-->
+            <!--mywindow = $(window);-->
+            <!--htmlbody = $('html,body');-->
+
+
+            <!--//Setup waypoints plugin-->
+            <!--slide.waypoint(function (event, direction) {-->
+
+                <!--//cache the variable of the data-slide attribute associated with each slide-->
+                <!--dataslide = $(this).attr('data-slide');-->
+
+                <!--//If the user scrolls up change the navigation link that has the same data-slide attribute as the slide to active and-->
+                <!--//remove the active class from the previous navigation link-->
+                <!--if (direction === 'down') {-->
+                    <!--$('.navigation li[data-slide="' + dataslide + '"]').addClass('active').prev().removeClass('active');-->
+                <!--}-->
+                <!--// else If the user scrolls down change the navigation link that has the same data-slide attribute as the slide to active and-->
+                <!--//remove the active class from the next navigation link-->
+                <!--else {-->
+                    <!--$('.navigation li[data-slide="' + dataslide + '"]').addClass('active').next().removeClass('active');-->
+                <!--}-->
+
+            <!--});-->
+
+            <!--//waypoints doesnt detect the first slide when user scrolls back up to the top so we add this little bit of code, that removes the class-->
+            <!--//from navigation link slide 2 and adds it to navigation link slide 1.-->
+            <!--mywindow.scroll(function () {-->
+                <!--if (mywindow.scrollTop() == 0) {-->
+                    <!--$('.navigation li[data-slide="1"]').addClass('active');-->
+                    <!--$('.navigation li[data-slide="2"]').removeClass('active');-->
+                <!--}-->
+            <!--});-->
+
+            <!--//Create a function that will be passed a slide number and then will scroll to that slide using jquerys animate. The Jquery-->
+            <!--//easing plugin is also used, so we passed in the easing method of 'easeInOutQuint' which is available throught the plugin.-->
+            <!--function goToByScroll(dataslide) {-->
+                <!--htmlbody.animate({-->
+                    <!--scrollTop: $('.slide[data-slide="' + dataslide + '"]').offset().top-->
+                <!--}, 2000, 'easeInOutQuint');-->
+            <!--}-->
+
+
+
+            <!--//When the user clicks on the navigation links, get the data-slide attribute value of the link and pass that variable to the goToByScroll function-->
+            <!--links.click(function (e) {-->
+                <!--e.preventDefault();-->
+                <!--dataslide = $(this).attr('data-slide');-->
+                <!--goToByScroll(dataslide);-->
+            <!--});-->
+
+            <!--//When the user clicks on the button, get the get the data-slide attribute value of the button and pass that variable to the goToByScroll function-->
+            <!--button.click(function (e) {-->
+                <!--e.preventDefault();-->
+                <!--dataslide = $(this).attr('data-slide');-->
+                <!--goToByScroll(dataslide);-->
+
+            <!--});-->
+
+
+        <!--});-->
+
+    <!--});-->
+<!--</script>-->
+
+</body>
+</html>
