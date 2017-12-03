@@ -2,7 +2,7 @@ body {
     margin: 0 0;
     padding: 0 0 50px 0;
     font-size: 12px;
-    font-family: 'Raleway';
+    font-family: Serif;
 }
 .dark-cover {
     top: 0;
@@ -23,7 +23,7 @@ body {
 }
 
 #temp {
-    font-family: 'Poiret One';
+    font-family: Serif;
     margin-top: -8px;
     font-size: 14px;
 
@@ -33,7 +33,7 @@ body {
 
 #time {
     font-size: 16px;
-    font-family: "Poiret One";
+    font-family: Serif;
     float: right;
 }
 
@@ -146,7 +146,7 @@ a {
 #introtitle{
     z-index: 4;
     font-size: 120px;
-    font-family: 'Poiret One';
+    font-family: Serif;
     opacity: 0.85;
 }
 
@@ -173,7 +173,7 @@ a {
     font-size: 16px;
     margin: auto;
     text-align: center;
-    font-family: 'Raleway';
+    font-family: Serif;
 }
 
 .ui-slider {
@@ -189,7 +189,7 @@ a {
     width:40px;
     margin-left: -20px;
     height:40px;
-    background:url(../img/bike.png) no-repeat;
+    /*background:url(../img/bike.png) no-repeat;*/
     background-size: 40px;
     position:absolute;
     top: -15px;
@@ -199,7 +199,7 @@ a {
 #filters {
     /*  float: left;*/
     margin-top: 0px;
-    font-family: 'Poiret One';
+    font-family: Serif;
     font-size: 16px;
 }
 
@@ -236,7 +236,7 @@ a {
     top: 200px;
     margin: auto;
     font-size: 35px;
-    font-family: 'Poiret One';
+    font-family: Serif;
 }
 
 .bikes, .stations, .bikes svg, .stations svg {

@@ -25,7 +25,7 @@ body, html{
     left: 40%;
     text-align: center;
     /*    bottom: 250px;*/
-    font-family: "Poiret One";
+    font-family: Serif;
     font-size: 40px;
     bottom: 500px;
 }
@@ -33,7 +33,7 @@ body, html{
 #launch a{
     color: #FFF;
     opacity: 0.6;
-    font-family: "Poiret One";
+    font-family: Serif;
     text-decoration: none;
     font-size: 25px;
 }
@@ -117,75 +117,3 @@ body, html{
     margin: 100 auto;
     text-align: center;
 }
-/*!*******************************/
- /*SLIDE 2*/
-/********************************!*/
-/*#slide2{*/
-    /*background-color:url(../img/geometry2.png);*/
-
-/*}*/
-/*#slide2 img:first-child{*/
-    /*position:absolute;*/
-    /*top: 700px;*/
-    /*left: -150px;*/
-/*}*/
-/*#slide2 img:nth-child(2){*/
-    /*position:absolute;*/
-    /*top:300px;*/
-    /*left:100px;*/
-/*}*/
-/*#slide2 img:nth-child(3){*/
-    /*position:absolute;*/
-    /*top:600px;*/
-    /*left:300px;*/
-/*}*/
-/*#slide2 img:nth-child(4){*/
-    /*position:absolute;*/
-    /*top:400px;*/
-    /*left:300px;*/
-/*}*/
-/*#slide2 img:nth-child(5){*/
-    /*position:absolute;*/
-    /*top:600px;*/
-    /*right:300px;*/
-/*}*/
-/*#slide2 img:nth-child(6){*/
-    /*position:absolute;*/
-    /*top:600px;*/
-    /*right:300px;*/
-/*}*/
-/*#slide2 img:nth-child(7){*/
-    /*position:absolute;*/
-    /*top:400px;*/
-    /*right:100px;*/
-/*}*/
-/*#slide2 img:nth-child(8){*/
-    /*position:absolute;*/
-    /*top:100px;*/
-    /*right:300px;*/
-/*}*/
-
-/*.navigation {*/
-    /*position:fixed;*/
-    /*z-index:1;*/
-    /*top:30px;*/
-/*}*/
-/*.navigation li, .navigation a {*/
-    /*color:#333333;*/
-    /*display:block;*/
-    /*padding: 0 10px;*/
-    /*line-height:30px;*/
-    /*margin-bottom:2px;*/
-    /*font-weight:bold;*/
-    /*text-decoration: none;*/
-    /*-webkit-transition: all .2s ease-in-out;*/
-    /*border-bottom:1px solid black;*/
-    /*text-align:left;*/
-    /*width:70px;*/
-/*}*/
-/*.navigation li:hover,*/
-/*.active {*/
-    /*font-size:20px;*/
-    /*cursor:pointer;*/
-    /*width:100px!important;*/
-/*}*/
